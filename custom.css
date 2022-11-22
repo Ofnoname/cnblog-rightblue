@@ -1002,3 +1002,16 @@ input.btn_my_zzk {
 	position: sticky;
 	top: 10vh;
 }
+
+.foldable{
+	display: inline;
+	/* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M21.938 14c0 .375-.188.75-.438 1l-9.063 8.688c-.25.25-.624.375-.937.375-.375 0-.75-.125-1-.375a1.396 1.396 0 0 1 0-2l8-7.688-8-7.688c-.563-.5-.563-1.437 0-2 .5-.562 1.375-.562 1.938 0L21.5 13c.25.25.438.625.438 1z' fill='%23212121'/%3E%3C/svg%3E"); */
+	float: left;
+	margin-left: -1rem;
+	transition: all .2s;
+}
+.econtent> ul>span{display: none;}
+.collapsed{
+	transform: rotate(90deg);
+	transform-origin: center;
+}

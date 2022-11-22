@@ -40,8 +40,8 @@ function genFromTitle(hLevel, index){
 		else {
 			t.attr('id', 'tp'+(++cnt))
 			ele += `<li>
-							<a href="#tp${cnt}"> ${ t.text() } </a>
-						</li>`;
+						<a rel="nofollow noopener"  href="#tp${cnt}"> ${ t.text() } </a>
+					</li>`;
 			index ++;
 		}
 	}
@@ -54,10 +54,15 @@ function makeEssayContent(elEssay, elContent) {
 		elEssay.find('h'+i).addClass('isTitle').attr('hLevel', i)
 	}
 	elContent.html(genFromTitle(1, 0).ele);
+	$('.econtent li ul').parent().prev().before($('<span class="foldable">&gt;</span>'))
+	$('.foldable').on("click", function(){
+		$(this).next().next().slideToggle(200)
+		$(this).toggleClass('collapsed')
+	})
 }
 
 // 开始修改样式
-let trytime = 0
+let trytime = 0, cd = 0
 
 const modifier = setInterval(function() {	
 	trytime++;
@@ -78,15 +83,19 @@ const modifier = setInterval(function() {
 	
 	
 	// 切换postDesc样式
-	$('.postDesc').html((id, orightml) => {
-		const origText = $('.postDesc').eq(id).text()
-		return `<span class='postDescDate'> ${origText.match(/\d{4}-\d\d-\d\d \d\d:\d\d/)} </span>
-				<span class='postInformation'>
-				<span class='postDescRead'> ${origText.match(/阅读\(\d+\)/)[0].match(/\d+/)[0]} </span>
-				<span class='postDescComt'> ${origText.match(/评论\(\d+\)/)[0].match(/\d+/)[0]} </span>
-				</span>
-			   `
-	})
+	if (cd == 0) {
+		cd = 1
+		$('.postDesc').html((id, orightml) => {
+			const origText = $('.postDesc').eq(id).text()
+			return `<span class='postDescDate'> ${origText.match(/\d{4}-\d\d-\d\d \d\d:\d\d/)} </span>
+					<span class='postInformation'>
+					<span class='postDescRead'> ${origText.match(/阅读\(\d+\)/)[0].match(/\d+/)[0]} </span>
+					<span class='postDescComt'> ${origText.match(/评论\(\d+\)/)[0].match(/\d+/)[0]} </span>
+					</span>
+				   `
+		})		
+	}
+
 	
 	// 首页文章界面
 	if ($('.post').length === 0) {
@@ -128,7 +137,6 @@ const modifier = setInterval(function() {
 		sl.append(ec)
 		makeEssayContent($('.post'), $('.econtent'))
 	}
-	
 	// footer
 	$('#footer').html('<span class="footerdec"><span style="color:#ff4d00;">Ofnoname</span> @ <span style="color:#9265ff;">Cnblogs</span> 2022<br>Powered by .NET 6 on <span style="color:#6a5acd;">Kubernetes</span></span>')
 	$('#footer').append($('.blogStats'))	
@@ -138,6 +146,7 @@ const modifier = setInterval(function() {
 	$('#stats-total-view-count').html($('#stats-total-view-count').html().match(/\d+/)[0])
 
 	// 完毕后显示
+	clearInterval(modifier)
 	$('.RecentCommentBlock ul').css('visibility', 'visible')
 	$('.forFlow').css('visibility', 'visible')
 }, 100)
