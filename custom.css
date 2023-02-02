@@ -1,11 +1,29 @@
+@font-face {font-family: 'COCOGOOSE';src: url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.gif');src: url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.gif?#iefix') format('embedded-opentype'),     url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.bmp') format('woff'),     url('') format('truetype'),     url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.png#COCOGOOSE') format('svg');   }
+@font-face {
+	font-family: "Fira Code";
+	src: url("https://common.cnblogs.com/fonts/FiraCode-Regular.woff2") format("woff2");
+	font-style: normal;
+}
+
 :root {
 	color: #333;
 	font-size: 16px;
 	box-sizing: border-box;
 	user-select: none;
 	word-break: break-all;
-	--theme: #dcf6fb;
-	scroll-behavior: smooth
+	scroll-behavior: smooth;
+
+	--theme-color: #dcf6fb; /* 主题色 */
+	--theme-color2: skyblue; /* 主题色2 */
+	--theme-color3: #b399ff; /* 主题色3 链接色 */
+	--theme-color4: #ef8b34; /* 主题色4 链接高亮 */
+	--theme-color5: #fff0ff; /* 主题色4 表头 */
+	--theme-color6: #fffbff; /* 主题色4 表格 */
+	--header-background: url("https://images.cnblogs.com/cnblogs_com/ofnoname/2093418/o_221120080227_1545207-20221111182621011-2060573809.jpg");
+	--white-background: #f8f8f8;
+
+	--header-font: COCOGOOSE;
+	--info-font: 'Fira Code', 'Lucida Console', 'PingFang SC','Microsoft YaHei', monospace;
 }
 
 * {
@@ -16,87 +34,88 @@
 body {
 	margin: 0;
 	padding: 0;
+	background-color: var(--white-background);
 }
 
 a {
 	text-decoration: none;
+	color: var(--theme-color3);
+	transition: .2s;
+}
+a:hover{
+	color: var(--theme-color4);
 }
 
-.forFlow {
-	visibility: hidden;
-}
+/* header 部分 */
 
-#main>#mainContent {
-	width: 0
-}
-
-#首部图片部分 {}
-
-#header #blogTitle {
-	width: 100%;
-	height: calc(100vw * 0.36);
-	min-height: 30vh;
-	/* background-image: url("https://images.cnblogs.com/cnblogs_com/ofnoname/2093418/o_220816145126_%E5%8C%97%E6%9E%81%E7%86%8A2.jpg"); */
-	background-image: url("https://images.cnblogs.com/cnblogs_com/ofnoname/2093418/o_221120080227_1545207-20221111182621011-2060573809.jpg");
+#blogTitle {
+	background-image: var(--header-background);
+	height: 68vmin;
 	background-position: 0 100%;
 	background-size: cover;
 	text-align: center;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
-#header #blogTitle>h1 {
-	margin-top: calc(6vw + 1.5rem);
-	margin-bottom: calc((.9rem + 1.3vw)*0.8);
+#lnkBlogLogo {display: none;}
+
+#blogTitle h1 {
+	/* 数学居中上移成为视觉居中 */
+	margin-top: -4vmin;
+	margin: 0;
 }
 
-#header #blogTitle>h1>a {
-	font-size: calc(1rem + 5vw);
-	text-decoration: none;
+#blogTitle h1 a {
+	font-size: 10vmin;
 	color: #333;
 	font-weight: 400;
+	font-family: var(--header-font), monospace;
+
 }
 
-#header #blogTitle>h2 {
-	font-size: calc(.9rem + 1.3vw);
-	color: #333;
-	margin-top: calc(0.2rem + 1vw);
+#blogTitle h2 {
+	font-size: 4vmin;
 	font-weight: 400;
+	margin: 0;
 }
 
 #navigator {
 	display: none;
 }
 
-#三栏flex分栏 {}
+/* main栏布局 */
 
 #main {
 	display: flex;
-	justify-content: space-between;
-	margin-top: 2.5em;
+	max-width: 1200px;
+	justify-content: center;
+	margin: 2.5em auto;
 }
 
-#main #sideBar {
+#main > *{
+	background-color: white;
+	border-radius: .5rem;
+	box-shadow: 0 1px 3px hsl(0deg 0% 7% / 10%);
+}
+
+#sideBar{
 	flex: 0 1.5 280px;
+	margin-left: 2rem;
+	padding: 0 1rem;
 }
 
-#main #mainContent {
-	flex: 1 1 1000px;
-	padding-left: 2.5rem;
-	padding-right: 2.5rem;
-}
-
-#main #sideBarLeft {
-	flex: 0 1.5 280px;
+#mainContent {
+	flex: 0 1 800px;
+	padding: 2rem 3rem;
 }
 
 @media (max-width:1080px) {
 	#main>#sideBar {
 		display: none;
 	}
-
-	#main>#sideBarLeft {
-		display: none;
-	}
-
 	#main>#mainContent {
 		flex: 1;
 		padding-left: 1rem;
@@ -104,7 +123,7 @@ a {
 	}
 }
 
-#首页文章 {}
+/* 文章列表 */
 
 .dayTitle {
 	display: none;
@@ -112,24 +131,22 @@ a {
 
 .postGeneral {
 	cursor: pointer;
-	padding-left: 1.5rem;
-	padding-right: 1.5rem;
 	transition: all .2s;
-	border-radius: 10px;
+	padding: 0 1rem;
+	border-radius: .5rem;
 }
 
 .postGeneral::after {
 	display: block;
 	width: 100%;
 	content: "";
-	margin-top: 1.5rem;
-	margin-bottom: 1.5rem;
+	margin: 1.5rem 0;
 	border-top: 2px solid gainsboro;
 }
 
 .postGeneral:hover {
-	box-shadow: 0px 0px 2px 2px #a2a2a2;
-	background-color: #dcf6fb;
+	box-shadow: 0 0 8px #aaa;
+	background-color: var(--theme-color);
 }
 
 .postTitle2 {
@@ -137,24 +154,52 @@ a {
 	color: #222;
 	text-decoration: none;
 }
+.postTitle2:hover{
+	color: #222;
+}
 
 .postCon {
 	margin: .8rem 0 1.5rem;
 	color: #aaa;
 }
 
-.postCon:hover {}
-
-
 /* 文章信息栏 */
 .postDesc {
-	color: #222;
-	font-family: 'Lucida Console', monospace, 'PingFang SC','Microsoft YaHei','Helvetica Neue','Helvetica','Arial',sans-serif;
+	font-family: var(--info-font);
 }
 
 .postInformation {
 	float: right;
 }
+
+.postDesc * {
+	display: inline-block;
+	padding: .25rem .75rem;
+	border-radius: .25rem;
+}
+
+.postDescDate {
+	background-color: #edece6;
+}
+
+.postInformation * {
+	background-color: #edece6;
+}
+
+.postInformation *:before{
+	display: inline-block;
+	content: "";
+	width: .9rem;
+	height: .8rem;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.postDescRead::before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='12' width='12' viewBox='0 0 24 24'%3E%3Cpath d='M23.444 10.239C21.905 8.062 17.708 3 12 3S2.1 8.062.555 10.24a3.058 3.058 0 0 0 0 3.52C2.1 15.938 6.292 21 12 21s9.905-5.062 11.445-7.24a3.058 3.058 0 0 0-.001-3.521zM12 17a5 5 0 1 1 5-5 5 5 0 0 1-5 5z' fill='%23212121'/%3E%3C/svg%3E");}
+.postDescComt:before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='none' stroke='%23212121' class='nc-icon-wrapper' stroke-linecap='square' stroke-miterlimit='10'%3E%3Cpath data-color='color-2' d='M23 5v11a2 2 0 0 1-2 2h-2v4l-6-4h-1'/%3E%3Cpath d='M17 2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2v5l7-5h5a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z'/%3E%3C/g%3E%3C/svg%3E");}
+
+
+.c_b_p_desc_readmore,.postDesc a {display: none;}
 
 @media (max-width: 480px) {
 	.postInformation {
@@ -164,67 +209,121 @@ a {
 	}
 }
 
-.postDescDate,
-.postDescRead,
-.postDescComt,
-.postDescLike {
-	display: inline-block;
-	padding: 5px 12px;
-	border-radius: 4px;
+/* 右栏 搜索 */
+.catListTitle{
+	font-weight: 400;
+	pointer-events: none;
+}
+.div_my_zzk{
+	display: flex;
+}
+.input_my_zzk {
+	flex: 1;
+	padding: 1em .5rem;
+	border: 1px solid #ccc;
+	font-size: 1rem;
+	border-radius: 5px;
+	transition: all 0.2s;
 }
 
-.postDescDate {
-	background-color: #edece6;
+.btn_my_zzk {
+	flex: 0 0 4rem;
+	padding: .5rem;
+	height: 2rem !important;
+	font-size: .8rem;
+	border-radius: .25rem;
+	outline-style: none;
+	transition: all 0.2s;
+	cursor: pointer;
+
+	background-color: white;
+	color: var(--theme-color3);
+	border: 1px solid var(--theme-color3);
 }
 
-.postDescRead {
-	background-color: #cacad0;
+.input_my_zzk:hover {
+	box-shadow: 0 0 5px #aaa;
 }
 
-.postDescRead::before {
-	display: inline-block;
+.btn_my_zzk:hover {
+	background-color: var(--theme-color3);
+	color: white;
+}
+
+/* 最新评论样式 */
+.RecentCommentBlock ul {
+	list-style-type: none;
+	user-select: text;
+	padding-left: 0;
+}
+
+.recent_comment_body {
+	font-size: .9rem;
+	margin: .9rem 0;
+}
+
+.recent_comment_author {
+	color: #aaa;
+	font-size: .9rem;
+}
+
+.recent_comment_author::after {
+	display: block;
+	margin: .9rem 0;
+	width: 100%;
 	content: "";
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='12' width='12' viewBox='0 0 24 24'%3E%3Cpath d='M23.444 10.239C21.905 8.062 17.708 3 12 3S2.1 8.062.555 10.24a3.058 3.058 0 0 0 0 3.52C2.1 15.938 6.292 21 12 21s9.905-5.062 11.445-7.24a3.058 3.058 0 0 0-.001-3.521zM12 17a5 5 0 1 1 5-5 5 5 0 0 1-5 5z' fill='%23212121'/%3E%3C/svg%3E");
-	width: .9rem;
-	height: .8rem;
-	background-repeat: no-repeat;
-	background-size: cover;
+	border-top: 2px solid gainsboro;
 }
 
-.postDescComt {
-	background-color: #c8c8c8;
+
+/* footer 样式 */
+#footer {
+	text-align: center;
+	margin: 4em auto 1em;
+	padding: 1.5em;
+	max-width: 450px;
+	border-radius: .5rem;
+	transition: all 0.2s;
+	font-family: var(--info-font);
+	position: relative;
+
+	background-image: linear-gradient(to bottom,
+		var(--theme-color),
+		var(--theme-color2),
+		var(--theme-color2),
+		var(--theme-color));
+	background-size: 300% 300%;
 }
 
-.postDescComt:before {
-	display: inline-block;
-	content: "";
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='none' stroke='%23212121' class='nc-icon-wrapper' stroke-linecap='square' stroke-miterlimit='10'%3E%3Cpath data-color='color-2' d='M23 5v11a2 2 0 0 1-2 2h-2v4l-6-4h-1'/%3E%3Cpath d='M17 2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2v5l7-5h5a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z'/%3E%3C/g%3E%3C/svg%3E");
-	width: .9rem;
-	height: .8rem;
-	background-repeat: no-repeat;
-	background-size: cover;
+#footer:hover {
+	background-position: 50% 50%;
+	box-shadow: 0 0 1px #444;
 }
 
-.postDescLike {
-	background-color: #d0ccc4;
+#footer:active {
+	background-position: 100% 100%;
 }
 
-.postDescLike:before {
-	display: inline-block;
-	content: "";
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg fill='%23212121' class='nc-icon-wrapper'%3E%3Cpath data-color='color-2' d='M4 11H1a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h3z'/%3E%3Cpath d='M22.539 10.4A4 4 0 0 0 19.5 9H13V4c0-2.206-.794-4-3-4a1 1 0 0 0-.965.737L6 11v13h12.426a3.979 3.979 0 0 0 3.954-3.392l1.076-7a4 4 0 0 0-.917-3.208z'/%3E%3C/g%3E%3C/svg%3E");
-	width: .9rem;
-	height: .8rem;
-	background-repeat: no-repeat;
-	background-size: cover;
+.footerdec {
+	opacity: 1;
+	transition: all 0.2s;
 }
 
-.c_b_p_desc_readmore {
-	display: none;
+#footer:hover .footerdec {
+	opacity: 0;
 }
 
-.postDesc a {
-	display: none;
+.blogStats {
+	opacity: 0;
+	position: absolute;
+	top: 40%;
+	left: 0; right: 0;
+	transition: all 0.2s;
+	font-size: 1.1rem;
+}
+
+#footer:hover .blogStats {
+	opacity: 1;
 }
 
 .blogStats *:before {
@@ -237,207 +336,54 @@ a {
 	margin-right: 2px;
 }
 
-.blogStats {
-	font-size: 1.1rem;
-}
-
-#stats-comment_count:before {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='none' stroke='%23212121' class='nc-icon-wrapper' stroke-linecap='square' stroke-miterlimit='10'%3E%3Cpath data-color='color-2' d='M23 5v11a2 2 0 0 1-2 2h-2v4l-6-4h-1'/%3E%3Cpath d='M17 2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2v5l7-5h5a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-#stats-total-view-count:before {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cpath d='M23.444 10.239C21.905 8.062 17.708 3 12 3S2.1 8.062.555 10.24a3.058 3.058 0 0 0 0 3.52C2.1 15.938 6.292 21 12 21s9.905-5.062 11.445-7.24a3.058 3.058 0 0 0-.001-3.521zM12 17a5 5 0 1 1 5-5 5 5 0 0 1-5 5z' fill='%23212121'/%3E%3C/svg%3E");
-}
-
-#stats_post_count:before {
-	background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23212121' class='nc-icon-wrapper'%3E%3Cpath d='M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5-1.95 0-4.05.4-5.5 1.5v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zM3 18.5V7c1.1-.35 2.3-.5 3.5-.5 1.34 0 3.13.41 4.5.99v11.5C9.63 18.41 7.84 18 6.5 18c-1.2 0-2.4.15-3.5.5zm18 0c-1.1-.35-2.3-.5-3.5-.5-1.34 0-3.13.41-4.5.99V7.49c1.37-.59 3.16-.99 4.5-.99 1.2 0 2.4.15 3.5.5v11.5z'/%3E%3Cpath opacity='.3' d='M11 7.49c-1.37-.58-3.16-.99-4.5-.99-1.2 0-2.4.15-3.5.5v11.5c1.1-.35 2.3-.5 3.5-.5 1.34 0 3.13.41 4.5.99V7.49z'/%3E%3Cpath d='M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.35 2.18-.54 3.5-.54zM17.5 13.16c.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.34 2.18-.54 3.5-.54zM17.5 15.83c.88 0 1.73.09 2.5.26v-1.52c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.35 2.18-.54 3.5-.54z'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-#stats_article_count:before {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='%23212121' stroke='%23212121' class='nc-icon-wrapper'%3E%3Cpath data-stroke='none' stroke='none' d='M15 1v6h6l-6-6z'/%3E%3Cpath data-cap='butt' fill='none' stroke-miterlimit='10' d='M15 1v6h6'/%3E%3Cpath fill='none' stroke-linecap='square' stroke-miterlimit='10' d='M15 1H3v22h18V7l-6-6z'/%3E%3Cpath data-color='color-2' fill='none' stroke='inherit' stroke-linecap='square' stroke-miterlimit='10' d='M7 7h4M7 12h10M7 17h10'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-
-
-/* 左右侧栏 */
-#main>#sideBarLeft {
-	border-radius: 0 16px 8px 0;
-	background: linear-gradient(to bottom, #f8f8f8, #fff, #fff ) ;
-	padding-left: 15px;
-}
-
-#main>#sideBar {
-	border-radius: 16px 0 0 8px;
-	background: linear-gradient(to bottom, #f8f8f8, #fff, #fff ) ;
-	padding-left: 15px;
-}
-
-.input_my_zzk {
-	width: 60%;
-	padding: 1em 4px;
-	border: 1px solid #ccc;
-	font-size: 1rem;
-	border-radius: 5px;
-	transition: all 0.2s;
-}
-
-input.btn_my_zzk {
-	width: 25%;
-	padding: .5rem;
-	height: initial;
-	border: 1px solid #ccc;
-	font-size: .8rem;
-	border-radius: 5px;
-	outline-style: none;
-	background-color: #d0d2e6;
-	transition: all 0.1s;
-}
-
-.input_my_zzk:hover {
-	box-shadow: 0px 0px 5px #aaa;
-}
-
-.btn_my_zzk:hover {
-	background-color: #0b008f;
-	color: white;
-}
-
-/* 最新评论样式 */
-.RecentCommentBlock ul {
-	list-style-type: none;
-	padding-left: 0;
-	padding-right: 10px;
-	visibility: hidden;
-}
-
-.recent_comment_title a {
-	color: #b399ff;
-	transition: all 0.25s;
-}
-
-.recent_comment_title a:hover {
-	color: #ef8b34;
-}
-
-.recent_comment_body {
-	color: #000;
-	font-size: .9rem;
-	margin-top: .9rem;
-	margin-bottom: .9rem;
-}
-
-.recent_comment_author {
-	color: #ccc;
-	font-size: .9rem;
-}
-
-.recent_comment_author::after {
-	display: block;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-	width: 100%;
-	content: "";
-	border-top: 2px dashed gainsboro;
-}
-
-
-/* footer样式 */
-#footer {
-	text-align: center;
-	margin: 4em auto 1em;
-	background-image: linear-gradient(to bottom, #d5edfb, lightblue, lightblue, #d5edfb);
-	background-size: 300% 300%;
-	padding: 1.5em;
-	max-width: 450px;
-	border-radius: 1em;
-	color: #444;
-	user-select: none;
-	transition: all 0.25s;
-	box-shadow: 0px 0px .5px #333;
-	font-family: 'Lucida Console', monospace, 'PingFang SC','Microsoft YaHei','Helvetica Neue','Helvetica','Arial',sans-serif;
-	position: relative;
-}
+#stats-comment_count:before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='none' stroke='%23212121' class='nc-icon-wrapper' stroke-linecap='square' stroke-miterlimit='10'%3E%3Cpath data-color='color-2' d='M23 5v11a2 2 0 0 1-2 2h-2v4l-6-4h-1'/%3E%3Cpath d='M17 2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2v5l7-5h5a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z'/%3E%3C/g%3E%3C/svg%3E");}
+#stats-total-view-count:before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cpath d='M23.444 10.239C21.905 8.062 17.708 3 12 3S2.1 8.062.555 10.24a3.058 3.058 0 0 0 0 3.52C2.1 15.938 6.292 21 12 21s9.905-5.062 11.445-7.24a3.058 3.058 0 0 0-.001-3.521zM12 17a5 5 0 1 1 5-5 5 5 0 0 1-5 5z' fill='%23212121'/%3E%3C/svg%3E");}
+#stats_post_count:before {background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23212121' class='nc-icon-wrapper'%3E%3Cpath d='M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5-1.95 0-4.05.4-5.5 1.5v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zM3 18.5V7c1.1-.35 2.3-.5 3.5-.5 1.34 0 3.13.41 4.5.99v11.5C9.63 18.41 7.84 18 6.5 18c-1.2 0-2.4.15-3.5.5zm18 0c-1.1-.35-2.3-.5-3.5-.5-1.34 0-3.13.41-4.5.99V7.49c1.37-.59 3.16-.99 4.5-.99 1.2 0 2.4.15 3.5.5v11.5z'/%3E%3Cpath opacity='.3' d='M11 7.49c-1.37-.58-3.16-.99-4.5-.99-1.2 0-2.4.15-3.5.5v11.5c1.1-.35 2.3-.5 3.5-.5 1.34 0 3.13.41 4.5.99V7.49z'/%3E%3Cpath d='M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.35 2.18-.54 3.5-.54zM17.5 13.16c.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.34 2.18-.54 3.5-.54zM17.5 15.83c.88 0 1.73.09 2.5.26v-1.52c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.35 2.18-.54 3.5-.54z'/%3E%3C/g%3E%3C/svg%3E");}
+#stats_article_count:before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='%23212121' stroke='%23212121' class='nc-icon-wrapper'%3E%3Cpath data-stroke='none' stroke='none' d='M15 1v6h6l-6-6z'/%3E%3Cpath data-cap='butt' fill='none' stroke-miterlimit='10' d='M15 1v6h6'/%3E%3Cpath fill='none' stroke-linecap='square' stroke-miterlimit='10' d='M15 1H3v22h18V7l-6-6z'/%3E%3Cpath data-color='color-2' fill='none' stroke='inherit' stroke-linecap='square' stroke-miterlimit='10' d='M7 7h4M7 12h10M7 17h10'/%3E%3C/g%3E%3C/svg%3E");}
 
 @media (max-width: 450px) {
 	#footer {
-		margin-left: 10px;
-		margin-right: 10px;
+		margin-left: .6rem;
+		margin-right: .6rem;
 	}
 }
 
-#footer:hover {
-	background-position: 50% 50%;
-	box-shadow: 0px 0px 1px #444;
-}
-
-#footer .footerdec {
-	opacity: 1;
-	transition: all 0.25s;
-}
-
-#footer:hover .footerdec {
-	opacity: 0;
-
-}
-
-#footer:active {
-	background-position: 100% 100%;
-}
-
-.blogStats {
-	opacity: 0;
-	position: absolute;
-	top: 43%;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	transition: all 0.25s;
-}
-
-#footer:hover .blogStats {
-	opacity: 1;
-}
-
-/*
- - 正文的颜色宽度
- - 链接
- - 表格
- - 小图片居中
- - 列表，标题样式
- - 水平线
- */
-
-/* 0. 总设置 */
-.post {
-	color: #222;
-	font-size: 1rem;
-	word-break: keep-all;
-	cursor: default;
-}
-
-.post h1.postTitle {
+/* 正文 */
+h1.postTitle{
 	margin-top: 0;
+	user-select: text;
 }
 
-.post .postTitle a {
+h1.postTitle a {
 	font-size: 2rem;
 	color: #121212;
-	font-weight: lighter;
+	font-weight: 400;
+}
+
+.cnblogs-markdown {
+	user-select: text;
 }
 
 .cnblogs-markdown p {
-	line-height: 1.6 !important;
+	line-height: 1.8 !important;
 	margin: 1.4rem 0 !important;
 	font-size: 1rem;
 }
-
-.cnblogs-markdown a {
-	color: skyblue;
-	transition: all 0.25s;
+.cnblogs-markdown li{
+	line-height: 1.8 !important;
 }
 
-.cnblogs-markdown a:hover {
-	color: firebrick;
+.cnblogs-markdown h2:before{
+	content: "#";
+	color: var(--theme-color3);
+	margin-right: .5rem;
+	margin-left: -1.5rem;
+}
+
+.cnblogs-markdown h3:before{
+	content: "|";
+	color: var(--theme-color3);
+	margin-right: .5rem;
 }
 
 .cnblogs-markdown h1 {
@@ -468,91 +414,58 @@ input.btn_my_zzk {
 	font-size: 1rem !important;
 }
 
-.cnblogs-markdown {
-	user-select: text;
-}
-
-.cnblogs-markdown hr {
-	margin: 1rem 0 !important;
-}
-
 .cnblogs-markdown .table-wrapper table {
-	margin: .3rem auto;
-	border: 2px solid #d8b1d4;
-	border-radius: 12px;
-	border-collapse: separate !important;
-	border-spacing: 0;
+	margin: 0 auto;
 }
 
-.cnblogs-markdown .table-wrapper table th {
-	background-color: #ecd8e9 !important;
-}
-
-.cnblogs-markdown .table-wrapper table td {
-	background-color: #fffbff !important;
-}
-
-.cnblogs-markdown .table-wrapper thead tr:first-child th:first-child {
-	border-radius: 12px 0 0 0;
-}
-
-.cnblogs-markdown .table-wrapper thead tr:first-child th:last-child {
-	border-radius: 0 12px 0 0;
-}
-
-.cnblogs-markdown .table-wrapper tbody tr:last-child td:first-child {
-	border-radius: 0 0 0 12px;
-}
-
-.cnblogs-markdown .table-wrapper tbody tr:last-child td:last-child {
-	border-radius: 0 0 12px 0;
-}
+.cnblogs-markdown .table-wrapper table th {background-color: var(--theme-color5) !important;}
+.cnblogs-markdown .table-wrapper td {background-color: var(--theme-color6) !important;}
 
 .cnblogs-markdown .math.inline {
-	padding-inline-start: 3px;
-	padding-inline-end: 3px;
+	padding-inline-start: .25rem;
+	padding-inline-end: .25rem;
 }
 
-
-/* 1. 行内代码，大块代码 */
-#topics .cnblogs-markdown code {
-	font: 1.1em 'Lucida Console', 'PingFang SC','Microsoft YaHei','Helvetica Neue','Helvetica','Arial', monospace,sans-serif;
-	background-color: inherit;
-	tab-size: 4;
-	padding: 0 0;
+#topics .cnblogs-markdown code,
+.feedbackCon code{
+	font: 1.1em var(--info-font) !important;
+	background-color: transparent !important;
+	tab-size: 4 !important;
+	padding: 0 0 !important;
 }
 
-#topics .cnblogs-markdown :not(pre) code {
-	display: inline;
-	color: #795db3;
+#topics .cnblogs-markdown :not(pre) code,
+.feedbackCon :not(pre) code{
+	color: var(--theme-color2) !important;
 }
 
 #topics .cnblogs-markdown pre code {
-	line-height: 1.75em;
-	color: #333;
+	line-height: 1.8em !important;
+	color: #333 !important;
+}
+
+.hljs-comment {
+	font-style: normal;
 }
 
 .cnblogs-markdown img {
 	margin: 1rem auto;
-	max-width: 90%;
+	max-width: 95%;
 	display: block;
-	border-radius: 8px;
-	box-shadow: 0 0 3px 0px #a2a2a2;
+	border-radius: .25rem;
+	box-shadow: 0 0 3px #aaa;
 	transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1),
-		box-shadow .2s !important;
-	background-color: transparent;
+				box-shadow .2s !important;
 }
 
 .cnblogs-markdown img:hover {
-	box-shadow: 0 0 8px 0px #555;
+	box-shadow: 0 0 8px #555;
 }
 
-/* 2. 按键 */
 .cnblogs-markdown kbd {
-	font: 1.1em 'Lucida Console', 'PingFang SC','Microsoft YaHei','Helvetica Neue','Helvetica','Arial', monospace,sans-serif;
+	font: 1.1em var(--info-font);
 	padding: 3px 5px;
 	margin: 0 3px;
-	/* line-height: 10px; */
 	color: #555;
 	vertical-align: middle;
 	background-color: #fcfcfc;
@@ -562,50 +475,24 @@ input.btn_my_zzk {
 	box-shadow: inset 0 -1px 0 #bbb;
 }
 
-/* 3. 定义 */
-.cnblogs-markdown dfn {
-	font-style: normal;
-	font-weight: bolder;
-}
-
-/* 4. 引用 */
-/* #cnblogs_post_body blockquote{
-    background-color: rgb(88, 188, 255);
-    border-radius: 15px;
-    border-left: none !important;
-    color: inherit;
-}
-#cnblogs_post_body blockquote p{
-    color: inherit;
-} */
 .cnblogs-markdown blockquote {
-	background: linear-gradient(to bottom right, #b2ffff, #ceffff, #e7ffff);
-	background-size: 200%;
-	border-radius: 8px;
+	background: linear-gradient(to bottom right,
+		var(--theme-color),
+		var(--theme-color2));
+	border-radius: .25rem;
 	border-left: none !important;
-	color: inherit;
-	background-position: 100% 100%;
-	margin: 1.4rem 0;
-	transition: background-position .25s;
-	padding: .5rem .8rem;
+	margin: 1rem 0;
+	padding: 1px .8rem;
 }
 
-.cnblogs-markdown blockquote:hover {
-	background-position: 0 0;
+.cnblogs-markdown ol,
+.cnblogs-markdown ul{
+	margin-left: 1rem !important;
+	padding-left: 0 !important;
+	line-height: 1.6 !important;
 }
 
-
-#topics .cnblogs-markdown ol {
-	margin-left: 1rem;
-	padding-left: 0;
-	line-height: 1.6;
-}
-
-#topics .cnblogs-markdown ul {
-	margin-left: 1rem;
-	padding-left: 0;
-	line-height: 1.6;
-}
+/* 评论区 */
 
 #blog-comments-placeholder {
 	margin: 1.5rem 0;
@@ -618,15 +505,14 @@ input.btn_my_zzk {
 	font-size: 1.5rem;
 }
 
-/* 评论区 */
 .feedback_area_title {
-	color: #121212;
+	color: #222;
 }
 
 #comment_sort {
 	float: none;
 	display: inline-flex;
-	background-color: skyblue;
+	background-color: var(--theme-color);
 	transition: all .2s;
 	padding: 5px 10px;
 	font-size: .75rem;
@@ -642,62 +528,60 @@ input.btn_my_zzk {
 }
 
 .feedbackItem {
-	background-color: #eee;
-	margin-bottom: 8px;
+	background-color: var(--white-background);
+	margin-bottom: 1rem;
 	border-radius: 8px;
 	padding: 10px 18px;
+	width: 70%;
+	clear: both;
+	position: relative;
 }
-
-.feedbackListSubtitle a {
+.feedbackItem:after {
+	content: "";
+	width: 0;
+	height: 0;
+	border: .8rem solid ;
+	border-color: var(--white-background) transparent transparent var(--white-background);
+	position: absolute;
+	left: 0;
+}
+.lz-comment:after{
+	content: "";
+	width: 0;
+	height: 0;
+	border: .8rem solid ;
+	border-color: var(--white-background) var(--white-background) transparent transparent;
+	position: absolute;
+	right: 0;
+	left: unset;
+}
+.feedbackManage a {
 	color: #aaa;
 	transition: .2s;
 	font-weight: 400;
 }
-
-.feedbackListSubtitle {
-	color: #000;
-}
-
-.feedbackManage {
-	margin-bottom: 5px;
-}
-
-.cnblogs-markdown {
-	cursor: default;
-}
-
-.feedbackListSubtitle a:hover {
+.feedbackManage a:hover {
 	color: #333;
 }
 
-.comment_actions a {
-	padding: 0 5px;
-	border-radius: 3px;
+.feedbackListSubtitle {
 	font-size: .9rem;
 }
 
-.comment_actions :first-child {
-	margin-left: -0.9rem;
-}
-
-.blog_comment_body.cnblogs-markdown p {
-	margin: .7rem 0 .2rem !important;
-}
-
-.blog_comment_body.cnblogs-markdown code {
-	font: 1.1em 'Lucida Console', 'PingFang SC','Microsoft YaHei','Helvetica Neue','Helvetica','Arial', monospace,sans-serif;
-	background-color: inherit;
-	tab-size: 4;
-	padding: 0 0;
-}
-
-.blog_comment_body.cnblogs-markdown :not(pre) code {
+.feedbackManage {
 	display: inline;
-	color: #795db3;
+	float: right;
+	font-size: .8rem;
 }
-
-.blog_comment_body.cnblogs-markdown pre code {
-	line-height: 1.75em;
+.layer{
+	font-family: var(--info-font);
+	color: inherit;
+}
+.comment_date{
+	font-family: var(--info-font);
+}
+.lz-comment{
+	float: right;
 }
 
 /* 上一篇和下一篇 */
@@ -706,27 +590,24 @@ input.btn_my_zzk {
 }
 
 .post_my_next_prev {
-	display: flex;
-	justify-content: space-between;
-	margin: 8px 0 16px;
+	margin: .5rem 0;
 }
 
 .post_my_next_prev a {
 	font-size: 1.05rem;
-	border-radius: 8px;
-	background-color: #f4f4f4;
+	border-radius: .5rem;
+	background-color: var(--white-background);
 	color: #aaa;
-	flex-basis: 49%;
-	flex-grow: 0;
-	flex-shrink: 1;
 	padding: 10px 18px;
 	transition: all .2s;
+	display: block;
+	margin-bottom: .5rem;
 }
 
 .post_my_next_prev a:hover {
 	color: #333;
-	box-shadow: 0px 0px 2px 2px #a2a2a2;
-	background-color: #dcf6fb;
+	box-shadow: 0 0 2px #a2a2a2;
+	background-color: var(--theme-color);
 }
 
 .post_my_next_prev a::before {
@@ -739,25 +620,10 @@ input.btn_my_zzk {
 	color: #333;
 }
 
-@media (max-width:1440px) {
-	.post_my_next_prev {
-		display: block;
-	}
-
-	.post_my_next_prev a {
-		display: block;
-	}
-
-	.post_my_next_prev a+a {
-		margin-top: 5px;
-	}
-}
-
-
 /* 广告区 */
 #cnblogs_ch,
 .under-post-card {
-	background-color: #f8f8f8;
+	background-color: var(--white-background);
 	border-radius: 8px;
 	width: 49%;
 	padding: 5px 12px;
@@ -777,7 +643,7 @@ input.btn_my_zzk {
 #cnblogs_ch a:hover,
 .under-post-card a:hover {
 	color: #333;
-	background-color: #dcf6fb;
+	background-color: var(--theme-color);
 }
 
 #cnblogs_c1 {
@@ -785,6 +651,10 @@ input.btn_my_zzk {
 	max-width: 49%;
 	margin-left: 4px;
 	margin-right: 4%;
+}
+
+#HistoryToday {
+	display: none;
 }
 
 @media (max-width:1080px) {
@@ -879,8 +749,8 @@ input.btn_my_zzk {
 	color: #333;
 	border-radius: 8px;
 	font-size: 1rem;
-	font-family: 'Lucida Console','Microsoft YaHei', 'PingFang SC','Helvetica Neue','Helvetica','Arial', monospace,sans-serif;
-	
+	font-family: 'Lucida Console','Microsoft YaHei', 'PingFang SC','Helvetica Neue','Helvetica','Arial', monospace,sans-serif !important;
+
 }
 .pager a{
 	background-color: #edece6;border-radius: 4px;
@@ -891,21 +761,23 @@ input.btn_my_zzk {
 }
 .pager a:first-child, .pager a:last-child{color: #333;}
 .pager a:hover{
-	background-color: var(--theme);
+	background-color: var(--theme-color);
 	color: #333;
 }
 #nav_next_page a{
 	color: #333;
-	background-color: #edece6;
+	background-color: var(--white-background);
 	margin-right: 8px;
 }
 #btn_comment_submit:hover, #nav_next_page a:hover {
-	background-color: var(--theme);
-
+	background-color: var(--theme-color);
 }
 #btn_comment_submit:active,#nav_next_page a:active {
-	background-color: lightskyblue;
-	box-shadow: 0px 0px .25px .25px;
+	background-color: var(--theme-color2);
+}
+.pager:first-child{
+	margin-top: 0;
+	padding-top: 0;
 }
 
 #tip_comment {
@@ -913,7 +785,7 @@ input.btn_my_zzk {
 }
 
 #span_comment_canceledit+a {
-	background-color: #ff7b5a;
+	background-color: var(--theme-color4);
 	padding: 8px 12px;
 	width: unset;
 	height: unset;
@@ -924,15 +796,6 @@ input.btn_my_zzk {
 	transition: .2s;
 }
 
-#span_comment_canceledit+a:hover {
-	background-color: #ff5232;
-	color: #333;
-}
-
-#span_comment_canceledit+a:active {
-	background-color: #ff0000;
-	box-shadow: 0px 0px .5px .5px;
-}
 .login_tips {
 	border-radius: 8px;
 	color: #333;
@@ -942,53 +805,17 @@ input.btn_my_zzk {
 	padding: 10px 18px;
 	transition: all .2s;
 	background: none;
-	background-color: var(--theme);
+	background-color: var(--theme-color);
 	margin: 16px 0;
 }
 
-.login_tips a {
-	color: #b399ff;
-	transition: all 0.25s;
-	text-decoration: none !important;
-}
+.login_tips a {text-decoration: none !important;}
 
-.login_tips a:hover {
-	color: #ef8b34;
-}
-
-@media print {
-	#header, .postDesc, #blog_post_info_block, #comment_form, #footer{display: none;}
-}
-
-/* 导航栏 */
-.navtag{
-	display: inline-block;
-	width: 2.3rem;
-	height: 3.9rem;
-	transition: .2s;
-	color: #aaa;
-	margin-right: .8rem;
-	font-size: .7rem;
-	text-align: center;
-}
-.navtag :not(span) {
-	width: 90%; height: 55%;
-	background-size: contain;
-	background-repeat: no-repeat;
-}
-.navtag:hover{
-	transform: scale(1.25); color: #333;
-}
-.navicon1{background-image: url("https://common.cnblogs.com/favicon.svg");}
-.navicon2{
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='39.6' height='43.2' viewBox='0 0 32 32'%3E%3Cpath d='M30.625 15.063c-.375 0-.688-.188-1-.376L16 1.313 2.375 14.687c-.563.5-1.438.5-2-.062-.5-.563-.5-1.438.063-2L15-1.625a1.52 1.52 0 0 1 2 0l14.563 14.25c.562.563.562 1.438.062 2-.313.25-.688.438-1 .438zm-3.063 13.562V15c0-.75-.625-1.375-1.375-1.375-.812 0-1.437.625-1.437 1.375v12.188h-4.313V19.75c0-1-.875-1.813-1.875-1.813h-5.125c-1 0-1.874.813-1.874 1.813v7.438H7.25V15c0-.75-.625-1.375-1.438-1.375-.75 0-1.375.625-1.375 1.375v13.625c0 .75.625 1.375 1.375 1.375H13c.75 0 1.375-.625 1.375-1.375v-7.938h3.313v7.938c0 .75.625 1.375 1.375 1.375h7.125c.75 0 1.375-.625 1.375-1.375z' fill='%23212121'/%3E%3C/svg%3E");
-	margin-left: 4px;
-}
-.navicon3{
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='39.6' height='43.2' viewBox='0 0 92 92'%3E%3Cpath d='M60.9 25.5c3.2 3.6 4.7 8.5 4 13.7-1.2 9.6-8.2 13-14.4 13H50v2.4c0 2.2-1.8 4-4 4s-4-1.8-4-4v-3.2c0-3.3 1.4-7.2 8.5-7.2 3.9 0 5.9-2 6.4-6 .2-1.3.3-4.8-2.1-7.4-1.9-2.1-5-3.2-9.2-3.2-9 0-9.3 5.9-9.3 6.5 0 2.2-1.8 4-4 4s-4-1.8-4-4c0-4 3.1-14.5 17.3-14.5 8.3 0 12.9 3.2 15.3 5.9zM45.7 62c-1.3 0-2.6.5-3.5 1.5-.9.9-1.5 2.2-1.5 3.5 0 1.3.5 2.6 1.5 3.5.9.9 2.2 1.5 3.5 1.5 1.3 0 2.6-.5 3.5-1.5.9-.9 1.5-2.2 1.5-3.5 0-1.3-.5-2.6-1.5-3.5-.9-.9-2.1-1.5-3.5-1.5zM92 46c0 25.4-20.6 46-46 46S0 71.4 0 46 20.6 0 46 0s46 20.6 46 46zm-8 0C84 25 67 8 46 8S8 25 8 46s17 38 38 38 38-17 38-38z' fill='%23212121'/%3E%3C/svg%3E");
-	margin-left: 4px;
-}
 /* 目录 */
+#ec {
+	position: sticky;
+	top: 2rem;
+}
 .econtent ul{
 	list-style-type: none;
 	padding-left: 1rem;
@@ -998,14 +825,9 @@ input.btn_my_zzk {
 .econtent a{color: #aaa;transition: .2s;}
 .econtent a:hover{color: #333;}
 .econtent >ul{padding-left: 0;}
-#ec {
-	position: sticky;
-	top: 10vh;
-}
 
 .foldable{
 	display: inline;
-	/* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M21.938 14c0 .375-.188.75-.438 1l-9.063 8.688c-.25.25-.624.375-.937.375-.375 0-.75-.125-1-.375a1.396 1.396 0 0 1 0-2l8-7.688-8-7.688c-.563-.5-.563-1.437 0-2 .5-.562 1.375-.562 1.938 0L21.5 13c.25.25.438.625.438 1z' fill='%23212121'/%3E%3C/svg%3E"); */
 	float: left;
 	margin-left: -1rem;
 	transition: all .2s;
@@ -1014,4 +836,66 @@ input.btn_my_zzk {
 .collapsed{
 	transform: rotate(90deg);
 	transform-origin: center;
+}
+
+/* 导航栏 */
+.nav{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 4rem;
+	transition: .2s;
+}
+.nav:hover{
+	/* todo */
+	background-color: rgba(248, 248, 248, 0.5);
+}
+.site-collection{
+	float: right;
+}
+.nav a{
+	display: inline-block;
+	font-weight: 700;
+
+	text-align: center;
+	color: #000;
+	min-width: 5rem;
+
+	font-size: 1.1rem;
+
+	transition: .2s;
+	vertical-align: middle;
+}
+.nav > a{
+	border-top: 6px solid transparent;
+	line-height: 3.5rem;
+	height: 4rem;
+}
+.nav > a:first-child{
+	display: inline-flex;
+	flex-direction: column;
+	width: 4rem;
+	justify-content: center;
+}
+.nav > a:hover{
+	border-top-color: var(--theme-color4);
+}
+.nav img{
+	line-height: 3.5rem;
+	height: 2rem !important;
+	display: inline-block;
+}
+
+.site-collection a{
+	margin: .8rem;
+	padding: .5rem 1rem;
+	border-radius: 1rem;
+	background-color: rgba(248, 248, 248, 0.5);
+}
+.site-collection a:hover{
+	background-color: var(--theme-color4);
+}
+/* 打印网页 */
+@media print {
+	#header, .postDesc, #blog_post_info_block, #comment_form, #blog-comments-placeholder, #footer{display: none;}
 }
