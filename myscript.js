@@ -1,9 +1,6 @@
-// 导航
 const sideBar = $('#sideBar')
-const username = 'ofnoname'
 
-// 目录
-let cnt = 0;
+/* 生成目录 */
 function genFromTitle(hLevel, index){
     let ele = ''
     while (index < $('.isTitle').length) {
@@ -25,6 +22,7 @@ function genFromTitle(hLevel, index){
     ele = `<ul>${ele}</ul>`
     return {ele, index}
 }
+
 function makeEssayContent(elEssay, elContent) {
     for (let i = 1; i <= 6; i++) {
         elEssay.find('h'+i).addClass('isTitle').attr('hLevel', i)
@@ -38,24 +36,24 @@ function makeEssayContent(elEssay, elContent) {
 }
 
 // 开始修改样式
-let trytime = 0
+let everytime = 0
 
 const modifier = setInterval(function() {
-    trytime++;
-    if (trytime > 150) {
+    everytime++;
+    if (everytime > 150) {
         clearInterval(modifier)
     }
 
     // 确保加载完成
     if ($('.RecentCommentBlock ul').length === 0) return;
     if ($('.postDesc').length === 0 && $('.post').length === 0) return;
-    clearInterval(modifier)
+    if ($('.under-post-card').html() === "") return;
 
     $('.recent_comment_title a').text((id, origText) => {
         return origText.replace(/\d?\d.\sRe:/, '')
     })
     $('.recent_comment_author').text((id, origText) => {
-        return origText.replace('--', '——')
+        return origText.replace('--', '')
     })
 
     // 切换postDesc样式
@@ -112,21 +110,21 @@ const modifier = setInterval(function() {
         makeEssayContent($('.post'), $('.econtent'))
     }
 
-    // footer
+    // 页脚
     let ft = $('#footer')
     ft.html(`<span class="footerdec">
-                <span style="color:red;">Ofnoname</span> @ <span style="color:purple;">Cnblogs</span> 2023<br>
-                我有一个远大的理想……
+                <span style="color:red;">Ofnoname</span> @ <span style="color:purple;">Cnblogs</span><br>
              </span>`)
     ft.append($('.blogStats'))
     for (const i of ['_post_', '_article_', '-comment_', '-total-view-']) {
         const ele = $(`#stats${i}count`) // 四个元素
         ele.html(ele.html().match(/\d+/)[0])
     }
+    clearInterval(modifier)
 }, 100)
 
 const cm_modifier = setInterval(function() {
-    if (trytime > 150) {
+    if (everytime > 150) {
         clearInterval(cm_modifier)
     }
     if ($('.post').length !== 0 && $('.feedbackItem').length === 0) return;
@@ -139,16 +137,19 @@ const cm_modifier = setInterval(function() {
     clearInterval(cm_modifier)
 }, 100)
 
-const headnav = $(`
+/* 导航栏 */
+const headers = $(`
     <div class="nav">
         <a href="https://cnblogs.com">
             <img src="https://common.cnblogs.com/favicon.svg"/>
         </a>
         <a href="https://cnblogs.com/ofnoname">首页</a>
-        <span class="site-collection">
-            <a href="https://vagbear.cn">主站</a>
-        </span>
+        <a href="https://home.cnblogs.com/u/ofnoname">信息</a>
+        <a href="https://github.com/Ofnoname/cnblog-rightblue">主题</a>
+<!--        <span class="site-collection">-->
+<!--            <a href="https://vagbear.cn">主站</a>-->
+<!--        </span>-->
     </div>
 `)
 
-$('body').append(headnav)
+$('body').append(headers)

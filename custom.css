@@ -1,15 +1,17 @@
-@font-face {font-family: 'COCOGOOSE';src: url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.gif');src: url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.gif?#iefix') format('embedded-opentype'),     url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.bmp') format('woff'),     url('') format('truetype'),     url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.png#COCOGOOSE') format('svg');   }
+/* 大标题选用的艺术字体 */
 @font-face {
-	font-family: "Fira Code";
-	src: url("https://common.cnblogs.com/fonts/FiraCode-Regular.woff2") format("woff2");
-	font-style: normal;
+	font-family: 'COCOGOOSE';
+	src: url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.gif');
+	src: url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.gif?#iefix') format('embedded-opentype'),
+	url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.bmp') format('woff'),
+	url('') format('truetype'),
+	url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.png#COCOGOOSE') format('svg');
 }
 
 :root {
 	color: #333;
 	font-size: 16px;
 	box-sizing: border-box;
-	user-select: none;
 	word-break: break-all;
 	scroll-behavior: smooth;
 
@@ -19,11 +21,15 @@
 	--theme-color4: #ef8b34; /* 主题色4 链接高亮 */
 	--theme-color5: #fff0ff; /* 主题色4 表头 */
 	--theme-color6: #fffbff; /* 主题色4 表格 */
-	--header-background: url("https://images.cnblogs.com/cnblogs_com/ofnoname/2093418/o_221120080227_1545207-20221111182621011-2060573809.jpg");
+	--header-background: url("https://img2024.cnblogs.com/blog/1545207/202412/1545207-20241226200647526-731785029.webp"); /* 头部背景图 */
+	--icon-comment: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='none' stroke='%23212121' class='nc-icon-wrapper' stroke-linecap='square' stroke-miterlimit='10'%3E%3Cpath data-color='color-2' d='M23 5v11a2 2 0 0 1-2 2h-2v4l-6-4h-1'/%3E%3Cpath d='M17 2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2v5l7-5h5a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z'/%3E%3C/g%3E%3C/svg%3E");
+	--icon-view: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cpath d='M23.444 10.239C21.905 8.062 17.708 3 12 3S2.1 8.062.555 10.24a3.058 3.058 0 0 0 0 3.52C2.1 15.938 6.292 21 12 21s9.905-5.062 11.445-7.24a3.058 3.058 0 0 0-.001-3.521zM12 17a5 5 0 1 1 5-5 5 5 0 0 1-5 5z' fill='%23212121'/%3E%3C/svg%3E");
+	--icon-post: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23212121' class='nc-icon-wrapper'%3E%3Cpath d='M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5-1.95 0-4.05.4-5.5 1.5v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zM3 18.5V7c1.1-.35 2.3-.5 3.5-.5 1.34 0 3.13.41 4.5.99v11.5C9.63 18.41 7.84 18 6.5 18c-1.2 0-2.4.15-3.5.5zm18 0c-1.1-.35-2.3-.5-3.5-.5-1.34 0-3.13.41-4.5.99V7.49c1.37-.59 3.16-.99 4.5-.99 1.2 0 2.4.15 3.5.5v11.5z'/%3E%3Cpath opacity='.3' d='M11 7.49c-1.37-.58-3.16-.99-4.5-.99-1.2 0-2.4.15-3.5.5v11.5c1.1-.35 2.3-.5 3.5-.5 1.34 0 3.13.41 4.5.99V7.49z'/%3E%3Cpath d='M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.35 2.18-.54 3.5-.54zM17.5 13.16c.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.34 2.18-.54 3.5-.54zM17.5 15.83c.88 0 1.73.09 2.5.26v-1.52c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.35 2.18-.54 3.5-.54z'/%3E%3C/g%3E%3C/svg%3E");
+	--icon-article: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='%23212121' stroke='%23212121' class='nc-icon-wrapper'%3E%3Cpath data-stroke='none' stroke='none' d='M15 1v6h6l-6-6z'/%3E%3Cpath data-cap='butt' fill='none' stroke-miterlimit='10' d='M15 1v6h6'/%3E%3Cpath fill='none' stroke-linecap='square' stroke-miterlimit='10' d='M15 1H3v22h18V7l-6-6z'/%3E%3Cpath data-color='color-2' fill='none' stroke='inherit' stroke-linecap='square' stroke-miterlimit='10' d='M7 7h4M7 12h10M7 17h10'/%3E%3C/g%3E%3C/svg%3E");
 	--white-background: #f8f8f8;
 
 	--header-font: COCOGOOSE;
-	--info-font: 'Fira Code', 'Lucida Console', 'PingFang SC','Microsoft YaHei', monospace;
+	--code-font: "FiraCode-Regular", "PingFang SC"; /* 来自博客园设置 */
 }
 
 * {
@@ -50,10 +56,12 @@ a:hover{
 
 #blogTitle {
 	background-image: var(--header-background);
+	/* 下述设置使用到了 vmin, 确保在任何宽度屏幕上正确显示 */
 	height: 68vmin;
 	background-position: 0 100%;
 	background-size: cover;
 	text-align: center;
+	user-select: none;
 
 	display: flex;
 	flex-direction: column;
@@ -63,8 +71,6 @@ a:hover{
 #lnkBlogLogo {display: none;}
 
 #blogTitle h1 {
-	/* 数学居中上移成为视觉居中 */
-	margin-top: -4vmin;
 	margin: 0;
 }
 
@@ -73,7 +79,6 @@ a:hover{
 	color: #333;
 	font-weight: 400;
 	font-family: var(--header-font), monospace;
-
 }
 
 #blogTitle h2 {
@@ -102,24 +107,28 @@ a:hover{
 }
 
 #sideBar{
-	flex: 0 1.5 280px;
+	flex: 0 0 280px;
 	margin-left: 2rem;
 	padding: 0 1rem;
 }
 
 #mainContent {
-	flex: 0 1 800px;
+	flex: 0 0 800px;
+	overflow-x: hidden;
 	padding: 2rem 3rem;
 }
 
 @media (max-width:1080px) {
-	#main>#sideBar {
+	#sideBar {
 		display: none;
 	}
-	#main>#mainContent {
+	#mainContent {
 		flex: 1;
-		padding-left: 1rem;
-		padding-right: 1rem;
+		padding: 2rem 2rem;
+	}
+	#main {
+		padding-left: .75rem;
+		padding-right: .75rem;
 	}
 }
 
@@ -145,7 +154,7 @@ a:hover{
 }
 
 .postGeneral:hover {
-	box-shadow: 0 0 8px #aaa;
+	box-shadow: 0 0 4px #aaa;
 	background-color: var(--theme-color);
 }
 
@@ -165,7 +174,7 @@ a:hover{
 
 /* 文章信息栏 */
 .postDesc {
-	font-family: var(--info-font);
+	font-family: var(--code-font), monospace;
 }
 
 .postInformation {
@@ -174,16 +183,17 @@ a:hover{
 
 .postDesc * {
 	display: inline-block;
-	padding: .25rem .75rem;
 	border-radius: .25rem;
 }
 
 .postDescDate {
 	background-color: #edece6;
+	padding: .25rem .75rem;
 }
 
 .postInformation * {
 	background-color: #edece6;
+	padding: .25rem .75rem;
 }
 
 .postInformation *:before{
@@ -195,11 +205,11 @@ a:hover{
 	background-size: cover;
 }
 
-.postDescRead::before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='12' width='12' viewBox='0 0 24 24'%3E%3Cpath d='M23.444 10.239C21.905 8.062 17.708 3 12 3S2.1 8.062.555 10.24a3.058 3.058 0 0 0 0 3.52C2.1 15.938 6.292 21 12 21s9.905-5.062 11.445-7.24a3.058 3.058 0 0 0-.001-3.521zM12 17a5 5 0 1 1 5-5 5 5 0 0 1-5 5z' fill='%23212121'/%3E%3C/svg%3E");}
-.postDescComt:before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='none' stroke='%23212121' class='nc-icon-wrapper' stroke-linecap='square' stroke-miterlimit='10'%3E%3Cpath data-color='color-2' d='M23 5v11a2 2 0 0 1-2 2h-2v4l-6-4h-1'/%3E%3Cpath d='M17 2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2v5l7-5h5a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z'/%3E%3C/g%3E%3C/svg%3E");}
+/* base64 编码的阅读和评论图标 */
+.postDescRead::before {background-image: var(--icon-view);}
+.postDescComt:before {background-image: var(--icon-comment);}
 
-
-.c_b_p_desc_readmore,.postDesc a {display: none;}
+/*.c_b_p_desc_readmore,.postDesc a {display: none;}*/
 
 @media (max-width: 480px) {
 	.postInformation {
@@ -253,7 +263,6 @@ a:hover{
 /* 最新评论样式 */
 .RecentCommentBlock ul {
 	list-style-type: none;
-	user-select: text;
 	padding-left: 0;
 }
 
@@ -284,7 +293,7 @@ a:hover{
 	max-width: 450px;
 	border-radius: .5rem;
 	transition: all 0.2s;
-	font-family: var(--info-font);
+	font-family: var(--code-font), monospace;
 	position: relative;
 
 	background-image: linear-gradient(to bottom,
@@ -336,32 +345,28 @@ a:hover{
 	margin-right: 2px;
 }
 
-#stats-comment_count:before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='none' stroke='%23212121' class='nc-icon-wrapper' stroke-linecap='square' stroke-miterlimit='10'%3E%3Cpath data-color='color-2' d='M23 5v11a2 2 0 0 1-2 2h-2v4l-6-4h-1'/%3E%3Cpath d='M17 2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2v5l7-5h5a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z'/%3E%3C/g%3E%3C/svg%3E");}
-#stats-total-view-count:before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cpath d='M23.444 10.239C21.905 8.062 17.708 3 12 3S2.1 8.062.555 10.24a3.058 3.058 0 0 0 0 3.52C2.1 15.938 6.292 21 12 21s9.905-5.062 11.445-7.24a3.058 3.058 0 0 0-.001-3.521zM12 17a5 5 0 1 1 5-5 5 5 0 0 1-5 5z' fill='%23212121'/%3E%3C/svg%3E");}
-#stats_post_count:before {background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23212121' class='nc-icon-wrapper'%3E%3Cpath d='M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5-1.95 0-4.05.4-5.5 1.5v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zM3 18.5V7c1.1-.35 2.3-.5 3.5-.5 1.34 0 3.13.41 4.5.99v11.5C9.63 18.41 7.84 18 6.5 18c-1.2 0-2.4.15-3.5.5zm18 0c-1.1-.35-2.3-.5-3.5-.5-1.34 0-3.13.41-4.5.99V7.49c1.37-.59 3.16-.99 4.5-.99 1.2 0 2.4.15 3.5.5v11.5z'/%3E%3Cpath opacity='.3' d='M11 7.49c-1.37-.58-3.16-.99-4.5-.99-1.2 0-2.4.15-3.5.5v11.5c1.1-.35 2.3-.5 3.5-.5 1.34 0 3.13.41 4.5.99V7.49z'/%3E%3Cpath d='M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.35 2.18-.54 3.5-.54zM17.5 13.16c.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.34 2.18-.54 3.5-.54zM17.5 15.83c.88 0 1.73.09 2.5.26v-1.52c-.79-.15-1.64-.24-2.5-.24-1.28 0-2.46.16-3.5.47v1.57c.99-.35 2.18-.54 3.5-.54z'/%3E%3C/g%3E%3C/svg%3E");}
-#stats_article_count:before {background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' width='24' viewBox='0 0 24 24'%3E%3Cg stroke-width='2' fill='%23212121' stroke='%23212121' class='nc-icon-wrapper'%3E%3Cpath data-stroke='none' stroke='none' d='M15 1v6h6l-6-6z'/%3E%3Cpath data-cap='butt' fill='none' stroke-miterlimit='10' d='M15 1v6h6'/%3E%3Cpath fill='none' stroke-linecap='square' stroke-miterlimit='10' d='M15 1H3v22h18V7l-6-6z'/%3E%3Cpath data-color='color-2' fill='none' stroke='inherit' stroke-linecap='square' stroke-miterlimit='10' d='M7 7h4M7 12h10M7 17h10'/%3E%3C/g%3E%3C/svg%3E");}
+#stats-comment_count:before {background-image: var(--icon-comment);}
+#stats-total-view-count:before {background-image: var(--icon-view);}
+#stats_post_count:before {background-image: var(--icon-post);}
+#stats_article_count:before {background-image: var(--icon-article);}
 
-@media (max-width: 450px) {
+@media (max-width: 480px) {
 	#footer {
-		margin-left: .6rem;
-		margin-right: .6rem;
+		margin-left: .75rem;
+		margin-right: .75rem;
 	}
 }
+
 
 /* 正文 */
 h1.postTitle{
 	margin-top: 0;
-	user-select: text;
 }
 
 h1.postTitle a {
 	font-size: 2rem;
 	color: #121212;
 	font-weight: 400;
-}
-
-.cnblogs-markdown {
-	user-select: text;
 }
 
 .cnblogs-markdown p {
@@ -407,7 +412,7 @@ h1.postTitle a {
 }
 
 .cnblogs-markdown h5 {
-	font-size: 1rem !important;
+	font-size: 1.05rem !important;
 }
 
 .cnblogs-markdown h6 {
@@ -421,27 +426,23 @@ h1.postTitle a {
 .cnblogs-markdown .table-wrapper table th {background-color: var(--theme-color5) !important;}
 .cnblogs-markdown .table-wrapper td {background-color: var(--theme-color6) !important;}
 
-.cnblogs-markdown .math.inline {
-	padding-inline-start: .25rem;
-	padding-inline-end: .25rem;
-}
-
-#topics .cnblogs-markdown code,
-.feedbackCon code{
-	font: 1.1em var(--info-font) !important;
+.cnblogs-markdown code, .feedbackCon code{
 	background-color: transparent !important;
 	tab-size: 4 !important;
 	padding: 0 0 !important;
 }
 
-#topics .cnblogs-markdown :not(pre) code,
-.feedbackCon :not(pre) code{
-	color: var(--theme-color2) !important;
+.cnblogs-markdown pre {
+	margin: 1rem 0 1rem -1rem !important;
 }
 
-#topics .cnblogs-markdown pre code {
-	line-height: 1.8em !important;
-	color: #333 !important;
+.cnblogs-markdown :not(pre) code, .feedbackCon :not(pre) code{
+	color: var(--theme-color2) !important;
+	font: 1.1rem var(--code-font); !important;
+}
+
+.cnblogs-markdown pre code {
+	line-height: 1.5em !important;
 }
 
 .hljs-comment {
@@ -463,7 +464,7 @@ h1.postTitle a {
 }
 
 .cnblogs-markdown kbd {
-	font: 1.1em var(--info-font);
+	font: 1.1em var(--code-font);
 	padding: 3px 5px;
 	margin: 0 3px;
 	color: #555;
@@ -473,16 +474,6 @@ h1.postTitle a {
 	border-bottom-color: #bbb;
 	border-radius: 3px;
 	box-shadow: inset 0 -1px 0 #bbb;
-}
-
-.cnblogs-markdown blockquote {
-	background: linear-gradient(to bottom right,
-		var(--theme-color),
-		var(--theme-color2));
-	border-radius: .25rem;
-	border-left: none !important;
-	margin: 1rem 0;
-	padding: 1px .8rem;
 }
 
 .cnblogs-markdown ol,
@@ -574,14 +565,14 @@ h1.postTitle a {
 	font-size: .8rem;
 }
 .layer{
-	font-family: var(--info-font);
+	font-family: var(--code-font);
 	color: inherit;
 }
 .comment_date{
-	font-family: var(--info-font);
+	font-family: var(--code-font);
 }
 .lz-comment{
-	float: right;
+	/*float: right;*/
 }
 
 /* 上一篇和下一篇 */
@@ -625,7 +616,6 @@ h1.postTitle a {
 .under-post-card {
 	background-color: var(--white-background);
 	border-radius: 8px;
-	width: 49%;
 	padding: 5px 12px;
 	line-height: 1.8;
 }
@@ -696,18 +686,6 @@ h1.postTitle a {
 	transition: .4s;
 	padding: .5rem 1rem;
 	font-weight: normal;
-}
-
-#green_channel_digg {
-	background-color: blue !important;
-}
-
-#green_channel_follow {
-	background-color: red !important;
-}
-
-#green_channel_favorite {
-	background-color: green !important;
 }
 
 /* 评论框 */
@@ -831,6 +809,7 @@ h1.postTitle a {
 	float: left;
 	margin-left: -1rem;
 	transition: all .2s;
+	user-select: none;
 }
 .econtent> ul>span{display: none;}
 .collapsed{
@@ -845,6 +824,7 @@ h1.postTitle a {
 	width: 100%;
 	height: 4rem;
 	transition: .2s;
+	user-select: none;
 }
 .nav:hover{
 	/* todo */
@@ -895,6 +875,7 @@ h1.postTitle a {
 .site-collection a:hover{
 	background-color: var(--theme-color4);
 }
+
 /* 打印网页 */
 @media print {
 	#header, .postDesc, #blog_post_info_block, #comment_form, #blog-comments-placeholder, #footer{display: none;}
