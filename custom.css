@@ -438,7 +438,7 @@ h1.postTitle a {
 
 .cnblogs-markdown :not(pre) code, .feedbackCon :not(pre) code{
 	color: var(--theme-color2) !important;
-	font: 1.1rem var(--code-font); !important;
+	font: 1.1rem var(--code-font) !important;
 }
 
 .cnblogs-markdown pre code {
@@ -571,9 +571,6 @@ h1.postTitle a {
 .comment_date{
 	font-family: var(--code-font);
 }
-.lz-comment{
-	/*float: right;*/
-}
 
 /* 上一篇和下一篇 */
 #post_next_prev {
@@ -641,6 +638,10 @@ h1.postTitle a {
 	max-width: 49%;
 	margin-left: 4px;
 	margin-right: 4%;
+}
+
+#blog_c1 {
+	padding: 0;
 }
 
 #HistoryToday {

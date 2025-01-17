@@ -35,19 +35,20 @@ function makeEssayContent(elEssay, elContent) {
     })
 }
 
-// 开始修改样式
-let everytime = 0
+// 修改样式
+
+// 设置数组
+let time = [0, 0, 0]
 
 const modifier = setInterval(function() {
-    everytime++;
-    if (everytime > 150) {
+    time[0]++;
+    if (time[0] > 150) {
         clearInterval(modifier)
     }
 
     // 确保加载完成
     if ($('.RecentCommentBlock ul').length === 0) return;
     if ($('.postDesc').length === 0 && $('.post').length === 0) return;
-    if ($('.under-post-card').html() === "") return;
 
     $('.recent_comment_title a').text((id, origText) => {
         return origText.replace(/\d?\d.\sRe:/, '')
@@ -96,12 +97,6 @@ const modifier = setInterval(function() {
         for (const l of document.querySelectorAll('#post_next_prev a')) post_mynextprev.appendChild(l)
         document.querySelector('#post_next_prev').parentNode.appendChild(post_mynextprev)
 
-        // 广告区
-        $('.under-post-card b').remove()
-        $('.under-post-card').html((index, rawHTML)=>{
-            return rawHTML.replaceAll('·', '').replace('<br>','')
-        })
-
         // 目录
         const ec = $('<div></div>').attr('id', 'ec')
             .append($('<h3>目录</h3>').attr('class', 'catListTitle'))
@@ -123,8 +118,29 @@ const modifier = setInterval(function() {
     clearInterval(modifier)
 }, 100)
 
+const ad_modifier = setInterval(function() {
+    if ($('.post').length === 0) {
+        clearInterval(ad_modifier)
+        return;
+    }
+    time[1]++;
+    if (time[1] > 150) {
+        clearInterval(ad_modifier)
+    }
+
+    let successful = true
+    
+    $('.under-post-card b').remove()
+    $('.under-post-card').html((index, rawHTML)=>{
+        if (rawHTML === null || rawHTML === '') successful = false
+        return rawHTML.replaceAll('·', '').replace('<br>','')
+    })
+    if (successful) clearInterval(ad_modifier)
+}, 100)
+
 const cm_modifier = setInterval(function() {
-    if (everytime > 150) {
+    time[2]++;
+    if (time[2] > 150) {
         clearInterval(cm_modifier)
     }
     if ($('.post').length !== 0 && $('.feedbackItem').length === 0) return;
