@@ -124,7 +124,7 @@ const ad_modifier = setInterval(function() {
         return;
     }
     time[1]++;
-    if (time[1] > 150) {
+    if (time[1] > 20) {
         clearInterval(ad_modifier)
     }
 
