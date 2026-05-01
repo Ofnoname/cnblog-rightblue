@@ -1,171 +1,436 @@
-const sideBar = $('#sideBar')
+(() => {
+    const $ = window.jQuery;
+    if (!$) return;
 
-/* 生成目录 */
-function genFromTitle(hLevel, index){
-    let ele = ''
-    while (index < $('.isTitle').length) {
-        let t = $('.isTitle').eq(index)
-        if (t.attr('hLevel') > hLevel) {
-            let nt = genFromTitle(t.attr('hLevel'), index)
-            ele += `<li>${nt.ele}</li>`
-            index = nt.index
+    // ===== RightBlue theme config (edit these) =====
+    const CONFIG = {
+        cnblogsUser: 'ofnoname',
+        displayName: 'Ofnoname',
+        themeRepo: 'https://github.com/Ofnoname/cnblog-rightblue',
+        navHome: 'https://cnblogs.com',
+        navHomeIcon: 'https://common.cnblogs.com/favicon.svg',
+        debug: false,
+    };
+
+    // Derived URLs
+    const USER_HOME = `https://cnblogs.com/${CONFIG.cnblogsUser}`;
+    const USER_PROFILE = `https://home.cnblogs.com/u/${CONFIG.cnblogsUser}`;
+    const THEME_REPO = CONFIG.themeRepo;
+
+    const qs = (sel, root = document) => root.querySelector(sel);
+    const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    const SELECTORS = {
+        nav: '.nav',
+        sideBar: '#sideBar',
+        postPageRoot: '.post',
+        mainContent: '#mainContent',
+        postTitle: '.postTitle',
+        postDesc: '.postDesc',
+        nextPrev: '#post_next_prev',
+        tocContainer: '#ec',
+        tocContent: '#ec .econtent',
+        recentCommentTitle: '.recent_comment_title a',
+        recentCommentAuthor: '.recent_comment_author',
+        underPostCard: '.under-post-card',
+        feedbackItem: '.feedbackItem',
+        feedbackCon: '.feedbackCon',
+        layer: '.layer',
+        footer: '#footer',
+        blogStats: '.blogStats',
+    };
+
+    const logDebug = (...args) => {
+        if (CONFIG.debug) console.debug('[rightblue]', ...args);
+    };
+
+    const safe = (name, fn) => {
+        try {
+            fn();
+        } catch (e) {
+            logDebug(`${name} failed`, e);
         }
-        else if (t.attr('hLevel') < hLevel) break
-        else {
-            t.attr('id', 'tp'+index)
-            ele += `<li>
-						<a rel="nofollow noopener"   href="#tp${index}"> ${ t.text() } </a>
-					</li>`;
-            index ++;
+    };
+
+    const once = (el, name) => {
+        if (!el) return false;
+        const attr = `data-rb-${name}`;
+        if (el.hasAttribute(attr)) return false;
+        el.setAttribute(attr, '1');
+        return true;
+    };
+
+    const parsePostDesc = (text) => {
+        const date = (text.match(/\d{4}-\d\d-\d\d\s+\d\d:\d\d/) || [null])[0];
+        const read = (text.match(/\u9605\u8bfb\(\d+\)/) || [null])[0];
+        const comt = (text.match(/\u8bc4\u8bba\(\d+\)/) || [null])[0];
+
+        const readCount = read ? (read.match(/\d+/) || [null])[0] : null;
+        const comtCount = comt ? (comt.match(/\d+/) || [null])[0] : null;
+        return { date, readCount, comtCount };
+    };
+
+    // Adapter: isolate DOM assumptions about CNBlogs
+    const adapter = {
+        isPostPage: () => $(SELECTORS.postPageRoot).length !== 0,
+        getHomePostTitles: () => qsa(SELECTORS.postTitle).filter((t) => !t.closest('.postGeneral')),
+        getPostTitleEl: () => qs(SELECTORS.postTitle),
+        getPostDescEl: () => qs(SELECTORS.postDesc),
+        getSideBarEl: () => qs(SELECTORS.sideBar),
+        getNextPrevEl: () => qs(SELECTORS.nextPrev),
+        ensureTocContainer: () => {
+            const sideBar = qs(SELECTORS.sideBar);
+            if (sideBar && !qs(SELECTORS.tocContainer)) {
+                const ec = document.createElement('div');
+                ec.id = 'ec';
+                ec.innerHTML = `<h3 class="catListTitle">\u76ee\u5f55</h3><div class="econtent"></div>`;
+                sideBar.appendChild(ec);
+            }
+            return qs(SELECTORS.tocContent);
+        },
+        getPostContentRoot: () => qs(SELECTORS.postPageRoot) || qs(SELECTORS.mainContent),
+        // Build a safe node group for a list-page post card.
+        // Returns null when DOM doesn't match expected CNBlogs list layout.
+        getHomePostGroup: (title) => {
+            if (!title || !title.parentElement) return null;
+            if (title.closest('.postGeneral')) return null;
+            const link = title.querySelector('a');
+            if (!link) return null;
+
+            const parent = title.parentElement;
+            const nodes = [];
+
+            let node = title;
+            let steps = 0;
+            while (node && steps < 12) {
+                steps += 1;
+                if (node.parentElement !== parent) break;
+                nodes.push(node);
+
+                const next = node.nextElementSibling;
+                if (!next) break;
+                if (next.classList.contains('postTitle')) break;
+                if (next.classList.contains('dayTitle')) break;
+                node = next;
+            }
+
+            const hasMeta = nodes.some((n) => n.classList?.contains('postDesc'));
+            const hasSummary = nodes.some((n) => n.classList?.contains('postCon'));
+            if (!hasMeta && !hasSummary) return null;
+
+            return { parent, title, link, nodes };
+        },
+    };
+
+    // Enhance: visual/UX enhancements built on top of adapter
+    const enhance = {};
+
+    enhance.nav = () => {
+        if (qs(SELECTORS.nav)) return;
+        const headers = $(
+            `<div class="nav">` +
+            `<a href="${CONFIG.navHome}"><img src="${CONFIG.navHomeIcon}"/></a>` +
+            `<a href="${USER_HOME}">\u9996\u9875</a>` +
+            `<a href="${USER_PROFILE}">\u4fe1\u606f</a>` +
+            `<a href="${THEME_REPO}">\u4e3b\u9898</a>` +
+            `</div>`
+        );
+        $('body').append(headers);
+    };
+
+    enhance.recentComments = () => {
+        $(SELECTORS.recentCommentTitle).each((_, a) => {
+            if (!once(a, 'rc-title')) return;
+            const t = $(a).text();
+            $(a).text(t.replace(/\d?\d\.\s*Re:\s*/i, ''));
+        });
+        $(SELECTORS.recentCommentAuthor).each((_, el) => {
+            if (!once(el, 'rc-author')) return;
+            const t = $(el).text();
+            $(el).text(t.replace(/\s*--\s*/g, ''));
+        });
+    };
+
+    enhance.postDesc = () => {
+        $(SELECTORS.postDesc).each((_, el) => {
+            if (!once(el, 'postDesc')) return;
+            const origText = $(el).text();
+            const { date, readCount, comtCount } = parsePostDesc(origText);
+            if (!date || readCount == null || comtCount == null) return;
+
+            $(el).html(
+                `<span class="postDescDate"> ${date} </span>` +
+                `<span class="postInformation">` +
+                `<span class="postDescRead"> ${readCount} </span>` +
+                `<span class="postDescComt"> ${comtCount} </span>` +
+                `</span>`
+            );
+        });
+    };
+
+    enhance.homeRestructure = () => {
+        if (adapter.isPostPage()) return; // only home/list pages
+        const titles = adapter.getHomePostTitles();
+        for (const title of titles) {
+            const group = adapter.getHomePostGroup(title);
+            if (!group) continue;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'postGeneral';
+            group.parent.insertBefore(wrapper, group.nodes[0]);
+
+            for (const n of group.nodes) {
+                wrapper.appendChild(n);
+            }
+
+            wrapper.addEventListener('click', (ev) => {
+                const target = ev.target;
+                if (target && target.closest && target.closest('a, button, input, textarea, select, label')) return;
+                group.link.click();
+            });
         }
-    }
-    ele = `<ul>${ele}</ul>`
-    return {ele, index}
-}
+    };
 
-function makeEssayContent(elEssay, elContent) {
-    for (let i = 1; i <= 6; i++) {
-        elEssay.find('h'+i).addClass('isTitle').attr('hLevel', i)
-    }
-    elContent.html(genFromTitle(1, 0).ele);
-    $('.econtent li ul').parent().prev().before($('<span class="foldable">▶</span>'))
-    $('.foldable').on("click", function(){
-        $(this).next().next().slideToggle(200)
-        $(this).toggleClass('collapsed')
-    })
-}
+    const buildTocDom = (headings) => {
+        const rootUl = document.createElement('ul');
+        const stack = [{ level: 1, ul: rootUl }];
 
-// 修改样式
+        for (const h of headings) {
+            const level = Number(h.getAttribute('data-hlevel')) || 1;
 
-// 设置数组
-let time = [0, 0, 0]
+            while (stack.length > 1 && level < stack[stack.length - 1].level) {
+                stack.pop();
+            }
+            while (level > stack[stack.length - 1].level) {
+                const parentUl = stack[stack.length - 1].ul;
+                const lastLi = parentUl.lastElementChild;
+                if (!lastLi) break;
+                const newUl = document.createElement('ul');
+                lastLi.appendChild(newUl);
+                stack.push({ level: stack[stack.length - 1].level + 1, ul: newUl });
+            }
 
-const modifier = setInterval(function() {
-    time[0]++;
-    if (time[0] > 150) {
-        clearInterval(modifier)
-    }
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.rel = 'nofollow noopener';
+            a.href = `#${h.id}`;
+            a.textContent = h.textContent || '';
+            li.appendChild(a);
+            stack[stack.length - 1].ul.appendChild(li);
+        }
+        return rootUl;
+    };
 
-    // 确保加载完成
-    if ($('.RecentCommentBlock ul').length === 0) return;
-    if ($('.postDesc').length === 0 && $('.post').length === 0) return;
+    enhance.postPage = () => {
+        if (!adapter.isPostPage()) return;
 
-    $('.recent_comment_title a').text((id, origText) => {
-        return origText.replace(/\d?\d.\sRe:/, '')
-    })
-    $('.recent_comment_author').text((id, origText) => {
-        return origText.replace('--', '')
-    })
+        // Move postDesc under title
+        const postTitle = adapter.getPostTitleEl();
+        const postDesc = adapter.getPostDescEl();
+        if (postTitle && postDesc && once(postDesc, 'movedPostDesc')) {
+            $(postTitle).after($(postDesc));
+        }
 
-    // 切换postDesc样式
-    $('.postDesc').html((id, orightml) => {
-        const origText = $('.postDesc').eq(id).text()
-        return `<span class='postDescDate'> ${origText.match(/\d{4}-\d\d-\d\d \d\d:\d\d/)} </span>
-                <span class='postInformation'>
-                <span class='postDescRead'> ${origText.match(/阅读\(\d+\)/)[0].match(/\d+/)[0]} </span>
-                <span class='postDescComt'> ${origText.match(/评论\(\d+\)/)[0].match(/\d+/)[0]} </span>
-                </span>
-               `
-    })
+        // Next/prev links
+        const np = adapter.getNextPrevEl();
+        if (np && once(np, 'nextPrev')) {
+            $(`${SELECTORS.nextPrev} br`).remove();
+            $(`${SELECTORS.nextPrev} .p_n_p_prefix`).remove();
 
-    // 首页文章界面
-    if ($('.post').length === 0) {
-        // 重拍文章结构
-        for (const title of document.querySelectorAll('.postTitle')) {
-            let postGroup = [title];
-            for (let i = 1; i < 5; i++)
-                postGroup[i] = postGroup[i-1].nextElementSibling;
-            let post = document.createElement('DIV')
-            post.classList.add('postGeneral')
-            title.parentNode.appendChild(post)
-            for (const i of postGroup)
-                post.appendChild(i)
-            post.onclick = function(){
-                title.children[0].click()
+            const links = qsa(`${SELECTORS.nextPrev} a`);
+            if (links.length > 0 && !qs('.post_my_next_prev')) {
+                const container = document.createElement('div');
+                container.className = 'post_my_next_prev';
+                for (const a of links) container.appendChild(a);
+                const host = np.parentElement;
+                if (host) host.appendChild(container);
             }
         }
-    }
 
-    // 文章界面
-    else {
-        $('.postTitle').after($('.postDesc'))
-        $('#post_next_prev br').remove()
-        $('#post_next_prev .p_n_p_prefix').remove()
+        // TOC in sidebar
+        const contentRoot = adapter.getPostContentRoot();
+        const tocRoot = adapter.ensureTocContainer();
+        if (!contentRoot || !tocRoot) return;
+        if (tocRoot.hasAttribute('data-rb-toc')) return;
 
-        let post_mynextprev = document.createElement('DIV')
-        post_mynextprev.classList.add('post_my_next_prev')
-        for (const l of document.querySelectorAll('#post_next_prev a')) post_mynextprev.appendChild(l)
-        document.querySelector('#post_next_prev').parentNode.appendChild(post_mynextprev)
+        const allHeadings = qsa('h1,h2,h3,h4,h5,h6', contentRoot);
+        const headings = [];
+        let idIndex = 0;
+        for (const h of allHeadings) {
+            const tag = (h.tagName || '').toLowerCase();
+            const m = tag.match(/^h([1-6])$/);
+            if (!m) continue;
+            const level = Number(m[1]);
+            h.classList.add('isTitle');
+            h.setAttribute('data-hlevel', String(level));
+            if (!h.id) h.id = `tp${idIndex++}`;
+            headings.push(h);
+        }
 
-        // 目录
-        const ec = $('<div></div>').attr('id', 'ec')
-            .append($('<h3>目录</h3>').attr('class', 'catListTitle'))
-            .append($('<div></div>').attr('class', 'econtent'))
-        sideBar.append(ec)
-        makeEssayContent($('.post'), $('.econtent'))
-    }
+        if (headings.length === 0) return;
 
-    // 页脚
-    let ft = $('#footer')
-    ft.html(`<span class="footerdec">
-                <span style="color:red;">Ofnoname</span> @ <span style="color:purple;">Cnblogs</span><br>
-             </span>`)
-    ft.append($('.blogStats'))
-    for (const i of ['_post_', '_article_', '-comment_', '-total-view-']) {
-        const ele = $(`#stats${i}count`) // 四个元素
-        ele.html(ele.html().match(/\d+/)[0])
-    }
-    clearInterval(modifier)
-}, 100)
+        tocRoot.innerHTML = '';
+        tocRoot.appendChild(buildTocDom(headings));
+        tocRoot.setAttribute('data-rb-toc', '1');
 
-const ad_modifier = setInterval(function() {
-    if ($('.post').length === 0) {
-        clearInterval(ad_modifier)
-        return;
-    }
-    time[1]++;
-    if (time[1] > 20) {
-        clearInterval(ad_modifier)
-    }
+        // fold toggles
+        $(`${SELECTORS.tocContent} li > ul`).each((_, ul) => {
+            const li = ul.parentElement;
+            if (!li) return;
+            const a = li.querySelector('a');
+            if (!a) return;
+            if (li.querySelector(':scope > .foldable')) return;
+            const span = document.createElement('span');
+            span.className = 'foldable';
+            span.textContent = '▶';
+            li.insertBefore(span, a);
+        });
+        $('#ec .foldable').off('click').on('click', function () {
+            const $ul = $(this).parent().children('ul').first();
+            $ul.slideToggle(200);
+            $(this).toggleClass('collapsed');
+        });
+    };
 
-    let successful = true
-    
-    $('.under-post-card b').remove()
-    $('.under-post-card').html((index, rawHTML)=>{
-        if (rawHTML === null || rawHTML === '') successful = false
-        return rawHTML.replaceAll('·', '').replace('<br>','')
-    })
-    if (successful) clearInterval(ad_modifier)
-}, 100)
+    enhance.underPostCard = () => {
+        const cards = qsa(SELECTORS.underPostCard);
+        for (const card of cards) {
+            if (!once(card, 'underPostCard')) continue;
+            $(card).find('b').remove();
+            const raw = $(card).html();
+            if (!raw) continue;
+            $(card).html(raw.replace(/\u00b7/g, '').replace(/<br\s*\/?>/g, ''));
+        }
+    };
 
-const cm_modifier = setInterval(function() {
-    time[2]++;
-    if (time[2] > 150) {
-        clearInterval(cm_modifier)
-    }
-    if ($('.post').length !== 0 && $('.feedbackItem').length === 0) return;
-    // 处理评论
-    $('.layer').html((id, ori)=>{
-        return ori.substring(0, ori.length-1)
-    })
-    $('.feedbackItem:has(.louzhu)').addClass('lz-comment')
-    $('.feedbackCon').addClass('cnblogs-markdown')
-    clearInterval(cm_modifier)
-}, 100)
+    enhance.comments = () => {
+        $(SELECTORS.layer).each((_, el) => {
+            if (!once(el, 'layer')) return;
+            const t = $(el).text();
+            if (t && /\u697c\s*$/.test(t)) $(el).text(t.replace(/\u697c\s*$/, ''));
+        });
+        $(SELECTORS.feedbackItem).each((_, el) => {
+            if (!once(el, 'feedbackItem')) return;
+            if ($(el).find('.louzhu').length > 0) $(el).addClass('lz-comment');
+        });
+        $(SELECTORS.feedbackCon).each((_, el) => {
+            if (!once(el, 'feedbackCon')) return;
+            $(el).addClass('cnblogs-markdown');
+        });
+    };
 
-/* 导航栏 */
-const headers = $(`
-    <div class="nav">
-        <a href="https://cnblogs.com">
-            <img src="https://common.cnblogs.com/favicon.svg"/>
-        </a>
-        <a href="https://cnblogs.com/ofnoname">首页</a>
-        <a href="https://home.cnblogs.com/u/ofnoname">信息</a>
-        <a href="https://github.com/Ofnoname/cnblog-rightblue">主题</a>
-<!--        <span class="site-collection">-->
-<!--            <a href="https://vagbear.cn">主站</a>-->
-<!--        </span>-->
-    </div>
-`)
+    enhance.footer = () => {
+        const ft = qs(SELECTORS.footer);
+        if (!ft) return;
 
-$('body').append(headers)
+        const $ft = $(ft);
+        if (!qs('#footer .footerdec')) {
+            $ft.html(
+                `<span class="footerdec">` +
+                `<span style="color:red;">${CONFIG.displayName}</span> @ <span style="color:purple;">Cnblogs</span><br>` +
+                `</span>`
+            );
+        }
+
+        const stats = qs(SELECTORS.blogStats);
+        if (stats && !ft.contains(stats)) {
+            $ft.append($(stats));
+        }
+
+        for (const key of ['_post_', '_article_', '-comment_', '-total-view-']) {
+            const ele = qs(`#stats${key}count`);
+            if (!ele) continue;
+            const m = (ele.textContent || '').match(/\d+/);
+            if (m) ele.textContent = m[0];
+        }
+    };
+
+    enhance.searchBoxes = () => {
+        const boxes = qsa('.div_my_zzk');
+        if (boxes.length === 0) return;
+
+        for (const box of boxes) {
+            if (box.hasAttribute('data-rb-search')) continue;
+
+            const btn = qs('.btn_my_zzk', box);
+            const btnLabel = (
+                btn?.getAttribute('value') ||
+                btn?.getAttribute('aria-label') ||
+                btn?.textContent ||
+                ''
+            ).trim();
+
+            const form = box.tagName === 'FORM' ? box : box.closest('form') || qs('form', box);
+            const action = (form?.getAttribute('action') || '').toLowerCase();
+
+            const isGoogle = /google|\u8c37\u6b4c/i.test(btnLabel) || action.includes('google');
+            box.setAttribute('data-rb-search', isGoogle ? 'google' : 'site');
+        }
+    };
+
+    const runAll = () => {
+        safe('nav', enhance.nav);
+        safe('recent-comments', enhance.recentComments);
+        safe('post-desc', enhance.postDesc);
+        safe('home-restructure', enhance.homeRestructure);
+        safe('post-page', enhance.postPage);
+        safe('under-post-card', enhance.underPostCard);
+        safe('comments', enhance.comments);
+        safe('footer', enhance.footer);
+        safe('search-boxes', enhance.searchBoxes);
+    };
+
+    // Initial run
+    $(runAll);
+
+    // Handle async-loaded blocks (recent comments / ads / comments)
+    let scheduled = false;
+    const schedule = () => {
+        if (scheduled) return;
+        scheduled = true;
+        window.setTimeout(() => {
+            scheduled = false;
+            runAll();
+        }, 50);
+    };
+
+    const RELEVANT_SELECTOR =
+        `${SELECTORS.recentCommentTitle},${SELECTORS.recentCommentAuthor},` +
+        `${SELECTORS.postDesc},${SELECTORS.postTitle},${SELECTORS.nextPrev},` +
+        `${SELECTORS.underPostCard},${SELECTORS.feedbackItem},${SELECTORS.feedbackCon},` +
+        `${SELECTORS.layer},${SELECTORS.footer},${SELECTORS.sideBar}`;
+
+    const isRelevantMutation = (mutations) => {
+        for (const m of mutations) {
+            if (m.type !== 'childList') continue;
+            const nodes = [...m.addedNodes, ...m.removedNodes];
+            for (const n of nodes) {
+                if (!n || n.nodeType !== 1) continue;
+                const el = /** @type {Element} */ (n);
+                if (
+                    el.matches?.(
+                        RELEVANT_SELECTOR
+                    )
+                ) {
+                    return true;
+                }
+                if (
+                    el.querySelector?.(
+                        RELEVANT_SELECTOR
+                    )
+                ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
+    const observer = new MutationObserver((mutations) => {
+        if (isRelevantMutation(mutations)) schedule();
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Stop observing after page becomes stable
+    window.setTimeout(() => observer.disconnect(), 10000);
+})();

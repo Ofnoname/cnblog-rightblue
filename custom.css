@@ -1,11 +1,11 @@
 /* 大标题选用的艺术字体 */
 @font-face {
 	font-family: 'COCOGOOSE';
-	src: url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.gif');
-	src: url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.gif?#iefix') format('embedded-opentype'),
-	url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.bmp') format('woff'),
-	url('') format('truetype'),
-	url('//cdn.res.webfont.com/webfonts/css/youziku/47031/47031.png#COCOGOOSE') format('svg');
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	/* 子集 woff2（仅包含标题所需字形），避免外链失效。 */
+	src: url('data:font/woff2;base64,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') format('woff2');
 }
 
 :root {
@@ -37,6 +37,11 @@
 	word-break: break-all;
 }
 
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
 body {
 	margin: 0;
 	padding: 0;
@@ -50,6 +55,31 @@ a {
 }
 a:hover{
 	color: var(--theme-color4);
+}
+
+/* 文本选中高亮（更统一、更“高级”） */
+::selection {
+	background-color: var(--theme-color);
+	color: #121212;
+}
+::-moz-selection {
+	background-color: var(--theme-color);
+	color: #121212;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+	}
 }
 
 /* header 部分 */
@@ -132,6 +162,17 @@ a:hover{
 	}
 }
 
+@media (max-width: 480px) {
+	#main {
+		margin: 1.25em auto;
+		padding-left: .5rem;
+		padding-right: .5rem;
+	}
+	#mainContent {
+		padding: 1.25rem 1rem;
+	}
+}
+
 /* 文章列表 */
 
 .dayTitle {
@@ -189,11 +230,16 @@ a:hover{
 .postDescDate {
 	background-color: #edece6;
 	padding: .25rem .75rem;
+	margin-right: .5rem;
 }
 
 .postInformation * {
 	background-color: #edece6;
 	padding: .25rem .75rem;
+}
+
+.postInformation > span + span {
+	margin-left: .5rem;
 }
 
 .postInformation *:before{
@@ -226,38 +272,98 @@ a:hover{
 }
 .div_my_zzk{
 	display: flex;
+	align-items: stretch;
+	flex-wrap: wrap;
+	border: 1px solid var(--theme-color2);
+	border-radius: .5rem;
+	overflow: hidden;
+	background-color: white;
+	min-height: 2.75rem;
+	transition: box-shadow .15s, background-position .15s;
+	background-image: linear-gradient(90deg, #fff, #fff);
+	background-size: 200% 200%;
+	background-position: 0 50%;
 }
 .input_my_zzk {
 	flex: 1;
-	padding: 1em .5rem;
-	border: 1px solid #ccc;
+	padding: .7rem .75rem;
+	border: none;
 	font-size: 1rem;
-	border-radius: 5px;
+	border-radius: 0;
 	transition: all 0.2s;
+	outline: none;
+	min-height: 2.75rem;
 }
 
 .btn_my_zzk {
-	flex: 0 0 4rem;
-	padding: .5rem;
-	height: 2rem !important;
-	font-size: .8rem;
-	border-radius: .25rem;
+	flex: 0 0 2.75rem;
+	padding: 0;
+	height: auto !important;
+	font-size: 0;
+	line-height: 0;
+	text-indent: -9999px;
+	overflow: hidden;
+	border-radius: 0;
 	outline-style: none;
-	transition: all 0.2s;
+	transition: background-position .15s, background-color .15s;
 	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	color: transparent;
+	text-shadow: none;
+	-webkit-text-fill-color: transparent;
 
 	background-color: white;
-	color: var(--theme-color3);
-	border: 1px solid var(--theme-color3);
+	border: none;
+	border-left: 1px solid color-mix(in srgb, var(--theme-color2), #fff 55%);
+	background-image:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/g%3E%3C/svg%3E"),
+		linear-gradient(90deg, #fff, #fff);
+	background-repeat: no-repeat, no-repeat;
+	background-position: center, 0 50%;
+	background-size: 1.15rem 1.15rem, 200% 200%;
 }
 
-.input_my_zzk:hover {
+.div_my_zzk:hover {
 	box-shadow: 0 0 5px #aaa;
+	background-image: linear-gradient(90deg, var(--theme-color2), #fff);
+	background-position: 50% 50%;
+}
+.input_my_zzk:focus {
+	box-shadow: none;
+}
+.btn_my_zzk:hover {
+	background-image:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/g%3E%3C/svg%3E"),
+		linear-gradient(90deg, var(--theme-color2), #fff);
+	background-position: center, 50% 50%;
+}
+.btn_my_zzk:active {
+	background-color: var(--theme-color2);
 }
 
-.btn_my_zzk:hover {
-	background-color: var(--theme-color3);
-	color: white;
+/* 区分“站内搜索”和“谷歌搜索”：由 JS 标记 data-rb-search */
+.div_my_zzk[data-rb-search="google"] .btn_my_zzk {
+	background-image:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3a16 16 0 0 1 0 18'/%3E%3Cpath d='M12 3a16 16 0 0 0 0 18'/%3E%3C/g%3E%3C/svg%3E"),
+		linear-gradient(90deg, #fff, #fff);
+}
+.div_my_zzk[data-rb-search="google"] .btn_my_zzk:hover {
+	background-image:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3a16 16 0 0 1 0 18'/%3E%3Cpath d='M12 3a16 16 0 0 0 0 18'/%3E%3C/g%3E%3C/svg%3E"),
+		linear-gradient(90deg, var(--theme-color2), #fff);
+}
+
+/* CNBlogs 默认可能会额外插入“谷歌搜索”等链接：放到下一行避免与按钮重叠 */
+.div_my_zzk a {
+	flex: 0 0 100%;
+	margin-top: .35rem;
+	text-align: right;
+	font-size: .85rem;
+	color: #aaa;
+}
+.div_my_zzk a:hover {
+	color: #333;
 }
 
 /* 最新评论样式 */
@@ -295,6 +401,7 @@ a:hover{
 	transition: all 0.2s;
 	font-family: var(--code-font), monospace;
 	position: relative;
+	cursor: default;
 
 	background-image: linear-gradient(to bottom,
 		var(--theme-color),
@@ -302,6 +409,10 @@ a:hover{
 		var(--theme-color2),
 		var(--theme-color));
 	background-size: 300% 300%;
+}
+
+#footer * {
+	cursor: inherit;
 }
 
 #footer:hover {
@@ -385,6 +496,13 @@ h1.postTitle a {
 	margin-left: -1.5rem;
 }
 
+@media (max-width: 480px) {
+	.cnblogs-markdown h2:before{
+		margin-left: -.9rem;
+		margin-right: .35rem;
+	}
+}
+
 .cnblogs-markdown h3:before{
 	content: "|";
 	color: var(--theme-color3);
@@ -426,10 +544,10 @@ h1.postTitle a {
 .cnblogs-markdown .table-wrapper table th {background-color: var(--theme-color5) !important;}
 .cnblogs-markdown .table-wrapper td {background-color: var(--theme-color6) !important;}
 
-.cnblogs-markdown code, .feedbackCon code{
+.cnblogs-markdown pre code, .feedbackCon pre code{
 	background-color: transparent !important;
 	tab-size: 4 !important;
-	padding: 0 0 !important;
+	padding: 0 !important;
 }
 
 .cnblogs-markdown pre {
@@ -437,8 +555,13 @@ h1.postTitle a {
 }
 
 .cnblogs-markdown :not(pre) code, .feedbackCon :not(pre) code{
-	color: var(--theme-color2) !important;
-	font: 1.1rem var(--code-font) !important;
+	color: #333 !important;
+	/* background-color: var(--theme-color) !important; */
+	font-family: var(--code-font), ui-monospace, monospace !important;
+	font-size: .95em !important;
+	padding: .05rem .35rem !important;
+	border-radius: .25rem;
+	word-break: break-word;
 }
 
 .cnblogs-markdown pre code {
@@ -720,6 +843,8 @@ h1.postTitle a {
 	border: none;
 	border-radius: 8px;
 	transition: .2s;
+	user-select: none;
+	-webkit-user-select: none;
 }
 #homepage_top_pager{margin-top:0;}
 .pager{
@@ -737,6 +862,8 @@ h1.postTitle a {
 	transition: .2s;
 	color: #aaa;
 	border: none;
+	user-select: none;
+	-webkit-user-select: none;
 }
 .pager a:first-child, .pager a:last-child{color: #333;}
 .pager a:hover{
@@ -773,6 +900,18 @@ h1.postTitle a {
 	border: none;
 	border-radius: 8px;
 	transition: .2s;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+/* 顶部“退出/注销”等链接：防止拖拽时误选中 */
+a[href*="logout"],
+a[href*="Logout"],
+a[href*="signout"],
+a[href*="SignOut"],
+a[href*="Signout"] {
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 .login_tips {
@@ -794,23 +933,50 @@ h1.postTitle a {
 #ec {
 	position: sticky;
 	top: 2rem;
+	margin-top: 1rem;
+}
+.econtent{
+	max-height: calc(100vh - 6rem);
+	overflow: auto;
+	padding-right: .25rem;
 }
 .econtent ul{
 	list-style-type: none;
-	padding-left: 1rem;
+	padding-left: .75rem;
+	margin: 0;
 	font-size: .9rem;
 }
-.econtent li{margin-bottom: .5rem;}
-.econtent a{color: #aaa;transition: .2s;}
-.econtent a:hover{color: #333;}
+.econtent li{
+	margin-bottom: .25rem;
+	position: relative;
+	padding-left: 1rem;
+	line-height: 1.6;
+}
+.econtent a{
+	color: #aaa;
+	transition: .2s;
+	display: inline-block;
+	padding: .1rem .35rem;
+	border-radius: .35rem;
+	max-width: 100%;
+}
+.econtent a:hover{
+	color: #333;
+	background-color: var(--theme-color);
+}
 .econtent >ul{padding-left: 0;}
 
 .foldable{
-	display: inline;
-	float: left;
-	margin-left: -1rem;
+	position: absolute;
+	left: 0;
+	top: .15rem;
+	width: 1rem;
+	height: 1rem;
+	line-height: 1rem;
+	text-align: center;
 	transition: all .2s;
 	user-select: none;
+	cursor: pointer;
 }
 .econtent> ul>span{display: none;}
 .collapsed{
@@ -879,5 +1045,53 @@ h1.postTitle a {
 
 /* 打印网页 */
 @media print {
-	#header, .postDesc, #blog_post_info_block, #comment_form, #blog-comments-placeholder, #footer{display: none;}
+	@page {
+		margin: 12mm;
+	}
+
+	#header,
+	#blogTitle,
+	.nav,
+	#sideBar,
+	.postDesc,
+	#blog_post_info_block,
+	#comment_form,
+	#blog-comments-placeholder,
+	#footer {
+		display: none !important;
+	}
+
+	body {
+		background: none !important;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+	#main {
+		display: block !important;
+		max-width: none !important;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+	#mainContent {
+		flex: none !important;
+		width: 100% !important;
+		padding: 0 !important;
+		overflow: visible !important;
+	}
+
+	#main > * {
+		background: none !important;
+		border-radius: 0 !important;
+		box-shadow: none !important;
+	}
+
+	/* 打印时尽量避免链接色块/背景干扰 */
+	a,
+	.cnblogs-markdown :not(pre) code,
+	.feedbackCon :not(pre) code {
+		background: none !important;
+		color: #121212 !important;
+	}
 }
